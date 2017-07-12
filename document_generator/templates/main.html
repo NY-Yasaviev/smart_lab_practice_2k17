@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+<div class="top-bar">
+    <section class="top-bar-section">
+        <ul class="right">
+            {% if username %}
+            <li><a href="/">Выйти ({{ username}})</a></li>
+        </ul>
+    </section>
+</div>
+{% block generator %}{% endblock %}
+{% block login %}{% endblock %}
+</body>
+</html>
