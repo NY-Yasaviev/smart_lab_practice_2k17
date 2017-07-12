@@ -1,0 +1,12 @@
+{% include 'header.html' %}
+
+<div>
+    <form action="/register/" method="post">
+        {% csrf_token %}
+        {{ form }}
+
+        <input class="button" type="submit" value="Зарегистрироваться">
+    </form>
+</div>
+
+{% include 'footer.html' %}
