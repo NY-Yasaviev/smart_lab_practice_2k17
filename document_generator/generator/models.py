@@ -1,5 +1,6 @@
 from django.db.models import Model, DateField, CharField, IntegerField, ForeignKey, ManyToManyField, OneToOneField, \
     CASCADE, TextField, BooleanField
+from django.contrib.auth.models import User, Group
 
 
 class Type(Model):
@@ -16,6 +17,8 @@ class Practice(Model):
 
 
 class Student(Model):
+    user = OneToOneField(User, on_delete=CASCADE, null=True)
+    group = ManyToManyField(Group)
     name = CharField(max_length=60, null=True)
     group = CharField(max_length=10, null=True)
     practice = ManyToManyField(Practice)
@@ -30,6 +33,11 @@ class Diary(Model):
     description = CharField(max_length=40, null=True)
     date = DateField
     practice = OneToOneField(Practice, null=True)
+
+
+class Deanery(Model):
+    user = OneToOneField(User, on_delete=CASCADE)
+    group = ManyToManyField(Group)
 
 
 class Pass(Model):
