@@ -3,7 +3,6 @@ from django.db.models import Model, DateField, CharField, IntegerField, ForeignK
 from django.contrib.auth.models import User, Group
 
 
-
 class Type(Model):
     name = CharField(max_length=20, null=True)
     company = CharField(max_length=60, null=True)
@@ -18,7 +17,8 @@ class Practice(Model):
 
 
 class Student(Model):
-
+    login = CharField(max_length=10, null=True)
+    password = CharField(max_length=16, null=True)
     user = OneToOneField(User, on_delete=CASCADE, null=True)
     group_link = ManyToManyField(Group)
     name = CharField(max_length=60, null=True)
@@ -37,8 +37,9 @@ class Diary(Model):
     practice = OneToOneField(Practice, null=True)
 
 
-
 class Deanery(Model):
+    login = CharField(max_length=10, null=True)
+    password = CharField(max_length=16, null=True)
     user = OneToOneField(User, on_delete=CASCADE)
     group = ManyToManyField(Group)
 
