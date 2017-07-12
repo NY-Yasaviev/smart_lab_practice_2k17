@@ -1,7 +1,7 @@
-{% include 'header.html' %}
+{% extends 'main.html' %}
 
+{% block login %}
 <div>
-    <a href="/logout/">Выйти</a>
     <form action="/login/" method="post">
         {% csrf_token %}
         <label for="username">Имя пользователя</label>
@@ -12,8 +12,6 @@
             <label class="error">{{ login_error }}</label>
         {% endif %}
         <input class="button" type="submit" value="Войти">
-        <div class="label round secondary"><a href="/register/">Регистрация</a></div>
     </form>
 </div>
-
-{% include 'footer.html' %}
+{% endblock %}
