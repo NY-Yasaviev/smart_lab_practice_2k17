@@ -1,6 +1,3 @@
-def edit(request):
-    pass
-
 
 def edit_report(request):
     pass
@@ -38,7 +35,7 @@ def student_pass(request, id):
     pass
 
 
-def edit_student(request):
+def edit_student(request, id):
     pass
 
 

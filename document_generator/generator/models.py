@@ -4,7 +4,16 @@ from django.contrib.auth.models import User, Group
 
 
 class Type(Model):
-    name = CharField(max_length=20, null=True)
+    EDU = 'EDU'
+    PROD = 'PROD'
+    DIP = 'DIP'
+    CHOICES = (
+        (EDU, 'Учебная'),
+        (PROD, 'Производственная'),
+        (DIP, 'Преддипломная'))
+    name = CharField(max_length=20,
+                     choices=CHOICES,
+                     default=EDU)
     company = CharField(max_length=60, null=True)
     address = CharField(max_length=60, null=True)
 
