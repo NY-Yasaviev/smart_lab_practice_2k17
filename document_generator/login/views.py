@@ -26,10 +26,16 @@ def login(request):
             return render_to_response('login/login.html', args)
 
     else:
-        return render_to_response('login/login.html', args)
+        if auth.get_user(request).is_authenticated:
+            if request.user.groups.get().name == "Students":
+                return render_to_response('student/index.html')
+            elif request.user.groups.get().name == "Deanery":
+                return render_to_response('deanery/index.html')
+        else:
+            return render_to_response('login/login.html', args)
 
 
 def logout(request):
     if auth.get_user(request).is_authenticated:
         auth.logout(request)
-    return render_to_response('login/login.html')
+    return redirect('/')
