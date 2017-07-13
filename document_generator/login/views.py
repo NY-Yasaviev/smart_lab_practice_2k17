@@ -14,9 +14,9 @@ def login(request):
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            if request.user in Group.objects.get_by_natural_key("Students"):
+            if request.user.groups.get().name == "Students":
                 return render_to_response('student/index.html')
-            elif request.user in Group.objects.get_by_natural_key("Deanery"):
+            elif request.user.groups.get().name == "Deanery":
                 return render_to_response('deanery/index.html')
             else:
                 args['login_error'] = "Пользователь не найден"
