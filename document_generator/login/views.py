@@ -15,9 +15,9 @@ def login(request):
         if user is not None:
             auth.login(request, user)
             if request.user in Group.objects.get_by_natural_key("Students"):
-                return redirect('students/')
+                return render_to_response('student/index.html')
             elif request.user in Group.objects.get_by_natural_key("Deanery"):
-                return redirect('deanery/')
+                return render_to_response('deanery/index.html')
             else:
                 args['login_error'] = "Пользователь не найден"
                 return render_to_response('login/login.html', args)
@@ -29,7 +29,7 @@ def login(request):
         return render_to_response('login/login.html', args)
 
 
-@login_required
 def logout(request):
-    auth.logout(request)
-    return redirect("/")
+    if auth.get_user(request).is_authenticated:
+        auth.logout(request)
+    return render_to_response('login/login.html')
