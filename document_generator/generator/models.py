@@ -17,12 +17,18 @@ class Type(Model):
     company = CharField(max_length=60, null=True)
     address = CharField(max_length=60, null=True)
 
+    def __str__(self):
+        return "%s , %s, %s" % (self.name, self.company, self.address)
+
 
 class Practice(Model):
     name = CharField(max_length=60, null=True)
     teacher = CharField(max_length=60, null=True)
     director = CharField(max_length=60, null=True)
-    type = OneToOneField(Type)
+    type = ForeignKey(Type, on_delete=CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 class Student(Model):
