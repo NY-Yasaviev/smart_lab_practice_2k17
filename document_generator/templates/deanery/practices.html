@@ -1,0 +1,21 @@
+{% extends 'main.html' %}
+{% block body %}
+    <table>
+        <tr>
+            <th>Название</th>
+            <th>Преподаватель</th>
+            <th>Руководитель компании</th>
+            <th>Тип практики, фирма, адрес</th>
+        </tr>
+
+        {% for practice in practices %}
+            <tr>
+                <td>{{ practice.name }}</td>
+                <td>{{ practice.teacher }}</td>
+                <td>{{ practice.director }}</td>
+                <td>{{ practice.type }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
