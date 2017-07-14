@@ -1,13 +1,16 @@
 {% extends 'main.html' %}
 {% block body %}
-    <table border="2">
+    {% include 'menuForDeanery.html' %}
+    <table class="table table-bordered table-striped">
+        <thead>
         <tr>
             <th>Название</th>
             <th>Преподаватель</th>
             <th>Руководитель компании</th>
             <th>Тип практики, фирма, адрес</th>
         </tr>
-
+        </thead>
+        <tbody>
         {% for practice in practices_list %}
             <tr>
                 <td><a href="/practices/{{ practice.id }}/">{{ practice.name }}</a></td>
@@ -16,6 +19,6 @@
                 <td>{{ practice.type }}</td>
             </tr>
         {% endfor %}
+        </tbody>
     </table>
-
 {% endblock %}
