@@ -11,7 +11,7 @@
             <th>Квалификация</th>
         </tr>
 
-        {% for student in students %}
+        {% for student in students_list %}
             <tr>
                 <td><a href="/students/{{ student.id }}/">{{ student.name }}</a></td>
                 <td>{{ student.course }}</td>
