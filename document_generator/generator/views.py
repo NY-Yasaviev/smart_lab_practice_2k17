@@ -20,6 +20,7 @@ def edit_individual(request):
 
 
 def new_practice(request):
+    title = "Добавление практики"
     if request.POST:
         form = PracticeForm(request.POST or None)
         if form.is_valid():
@@ -27,11 +28,12 @@ def new_practice(request):
             return redirect("/practices/")
     else:
         form = PracticeForm()
-        return render(request,'deanery/addPractice.html',{'form': form})
+        return render(request, 'deanery/addPractice.html', {'form': form})
 
 
 
 def edit_practice(request, id):
+    title = "Редактирование практики"
     practice = Practice.objects.get(pk=id)
     if request.POST:
         form = PracticeForm(request.POST or None, instance=practice)
@@ -45,6 +47,7 @@ def edit_practice(request, id):
 
 
 def new_student(request):
+    title = "Добавление студента"
     if request.POST:
         form = StudentForm(request.POST or None)
         if form.is_valid():
@@ -77,6 +80,7 @@ def student_pass(request, id):
 
 
 def edit_student(request, id):
+    title = "Редактирование студента"
     student = Student.objects.get(pk=id)
     if request.POST:
         form = StudentForm(request.POST or None, instance=student)
@@ -89,6 +93,7 @@ def edit_student(request, id):
 
 
 def practices(request):
+    title = "Практики"
     practices_list = Practice.objects.all()
     return render(request, 'deanery/practices.html', locals())
 
@@ -98,5 +103,6 @@ def edit_diary(request):
 
 
 def students(request):
+    title = "Студенты"
     students_list = Student.objects.all()
     return render(request, 'deanery/students.html', locals())
