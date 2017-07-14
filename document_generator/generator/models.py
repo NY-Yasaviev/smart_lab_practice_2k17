@@ -43,8 +43,8 @@ class Student(Model):
     degree = CharField(max_length=50, null=True)
     status = CharField(max_length=20, null=True)
 
-    def in_group(self, group):
-        return Group.objects.get_by_natural_key(group) in self.user.groups
+    def __str__(self):
+        return "%s - %s" % (self.name, self.group)
 
 
 class Diary(Model):
