@@ -1,6 +1,10 @@
+import random
+import string
+
 from django.shortcuts import render_to_response, render,redirect
 from .models import *
 from .forms import *
+from django.contrib.auth import get_user_model
 
 
 def edit_report(request):
@@ -16,7 +20,15 @@ def edit_individual(request):
 
 
 def new_practice(request):
-    pass
+    if request.POST:
+        form = PracticeForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect("/practices/")
+    else:
+        form = PracticeForm()
+        return render(request,'deanery/addPractice.html',{'form': form})
+
 
 
 def edit_practice(request, id):
@@ -24,6 +36,7 @@ def edit_practice(request, id):
     if request.POST:
         form = PracticeForm(request.POST or None, instance=practice)
         if form.is_valid():
+
             form.save()
             return redirect("/practices/%s/" % id)
     else:
@@ -32,7 +45,22 @@ def edit_practice(request, id):
 
 
 def new_student(request):
-    pass
+    if request.POST:
+        form = StudentForm(request.POST or None)
+        if form.is_valid():
+            student = form.save(commit=False)
+            login = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+            password = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+            user = get_user_model().objects.create_user(username=login,password=password)
+            Group.objects.get(name = 'Students').user_set.add(user)
+            student.login = login
+            student.password = password
+            student.user = user
+            student.save()
+            return redirect("/students/")
+    else:
+        form = StudentForm()
+        return render(request, 'deanery/addStudent.html', {'form': form})
 
 
 def student_report(request, id):
