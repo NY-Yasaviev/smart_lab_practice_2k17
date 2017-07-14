@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 {% block body %}
-    <table border="2" cellpadding="7">
+    <table class="table table-bordered table-striped">
+        <thead>
         <tr>
             <th>ФИО</th>
             <th>Курс</th>
@@ -10,7 +11,8 @@
             <th>Наличие договора</th>
             <th>Квалификация</th>
         </tr>
-
+        </thead>
+        <tbody>
         {% for student in students_list %}
             <tr>
                 <td><a href="/students/{{ student.id }}/">{{ student.name }}</a></td>
@@ -22,6 +24,6 @@
                 <td>{{ student.degree }}</td>
             </tr>
         {% endfor %}
+        </tbody>
     </table>
-
 {% endblock %}

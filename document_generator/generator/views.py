@@ -40,7 +40,7 @@ def edit_practice(request, id):
             form.save()
             return redirect("/practices/%s/" % id)
     else:
-        form = PracticeForm()
+        form = PracticeForm(instance=practice)
         return render(request, 'deanery/practice.html', {'form': form}, locals())
 
 
@@ -84,7 +84,7 @@ def edit_student(request, id):
             form.save()
             return redirect("/students/%s/" % id)
     else:
-        form = StudentForm()
+        form = StudentForm(instance=student)
         return render(request, 'deanery/student.html', {'form': form}, locals())
 
 
