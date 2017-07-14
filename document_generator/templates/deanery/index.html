@@ -8,11 +8,13 @@
         {% for practice in practices %}
             <a href="/practices/{{ practice.id }}/">{{ practice.name }}</a>
         {% endfor %}
+        <a href="/practices/new/">Добавить практику</a>
     </div>
     <div>
         <a href="/students/">Студенты:</a>
         {% for student in students %}
             <a href="/students/{{ student.id }}/">{{ student.name }}</a>
         {% endfor %}
+        <a href="/students/new/">Добавить студента</a>
     </div>
 {% endblock %}
