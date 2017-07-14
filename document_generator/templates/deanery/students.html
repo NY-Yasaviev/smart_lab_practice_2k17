@@ -1,0 +1,27 @@
+{% extends 'main.html' %}
+{% block body %}
+    <table border="2" cellpadding="7">
+        <tr>
+            <th>ФИО</th>
+            <th>Курс</th>
+            <th>Группа</th>
+            <th>Практики</th>
+            <th>Направление подготовки</th>
+            <th>Наличие договора</th>
+            <th>Квалификация</th>
+        </tr>
+
+        {% for student in students %}
+            <tr>
+                <td><a href="/students/{{ student.id }}/">{{ student.name }}</a></td>
+                <td>{{ student.course }}</td>
+                <td>{{ student.group }}</td>
+                <td>{{ student.practice }}</td>
+                <td>{{ student.edu_profile }}</td>
+                <td>{{ student.contract }}</td>
+                <td>{{ student.degree }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

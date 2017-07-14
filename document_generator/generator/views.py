@@ -1,3 +1,7 @@
+from django.shortcuts import render_to_response, render,redirect
+from .models import *
+from .forms import *
+
 
 def edit_report(request):
     pass
@@ -16,7 +20,15 @@ def new_practice(request):
 
 
 def edit_practice(request, id):
-    pass
+    practice = Practice.objects.get(pk=id)
+    if request.POST:
+        form = PracticeForm(request.POST or None, instance=practice)
+        if form.is_valid():
+            form.save()
+            return redirect("/practices/%s/" % id)
+    else:
+        form = PracticeForm()
+        return render(request, 'deanery/practice.html', {'form': form}, locals())
 
 
 def new_student(request):
@@ -36,11 +48,20 @@ def student_pass(request, id):
 
 
 def edit_student(request, id):
-    pass
+    student = Student.objects.get(pk=id)
+    if request.POST:
+        form = StudentForm(request.POST or None, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect("/students/%s/" % id)
+    else:
+        form = StudentForm()
+        return render(request, 'deanery/student.html', {'form': form}, locals())
 
 
 def practices(request):
-    pass
+    practices = Practice.objects.all()
+    return render(request, 'deanery/practices.html', locals())
 
 
 def edit_diary(request):
@@ -48,4 +69,5 @@ def edit_diary(request):
 
 
 def students(request):
-    pass
+    students = Student.objects.all()
+    return render(request, 'deanery/students.html', locals())

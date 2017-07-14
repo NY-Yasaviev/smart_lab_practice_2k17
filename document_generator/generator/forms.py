@@ -35,7 +35,7 @@ class PassForm(ModelForm):
 class DatesForm(ModelForm):
     class Meta:
         model = Dates
-        fields = '__all__ '
+        fields = '__all__'
 
 
 class IndividualTaskForm(ModelForm):
