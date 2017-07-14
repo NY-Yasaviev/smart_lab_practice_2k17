@@ -8,7 +8,7 @@
             <th>Тип практики, фирма, адрес</th>
         </tr>
 
-        {% for practice in practices %}
+        {% for practice in practices_list %}
             <tr>
                 <td><a href="/practices/{{ practice.id }}/">{{ practice.name }}</a></td>
                 <td>{{ practice.teacher }}</td>

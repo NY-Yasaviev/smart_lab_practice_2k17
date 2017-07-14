@@ -52,11 +52,12 @@ def new_student(request):
             login = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
             password = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
             user = get_user_model().objects.create_user(username=login,password=password)
-            Group.objects.get(name = 'Students').user_set.add(user)
+            Group.objects.get(name='Students').user_set.add(user)
             student.login = login
             student.password = password
             student.user = user
             student.save()
+            form.save_m2m()
             return redirect("/students/")
     else:
         form = StudentForm()
@@ -88,7 +89,7 @@ def edit_student(request, id):
 
 
 def practices(request):
-    practices = Practice.objects.all()
+    practices_list = Practice.objects.all()
     return render(request, 'deanery/practices.html', locals())
 
 
@@ -97,5 +98,5 @@ def edit_diary(request):
 
 
 def students(request):
-    students = Student.objects.all()
+    students_list = Student.objects.all()
     return render(request, 'deanery/students.html', locals())
