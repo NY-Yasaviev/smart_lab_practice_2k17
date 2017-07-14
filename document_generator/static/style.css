@@ -1,0 +1,86 @@
+html{
+    background-color: #d6d6d6;
+}
+body{
+    background-color: #d6d6d6;
+}
+.login-form h1{
+    text-align: center;
+}
+.login-form form input{
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    margin: 5px 0;
+    font-size: 20px;
+    padding: 0 10px;
+}
+.login-form{
+    position: absolute;
+    top: 50%;
+    margin-top: -150px;
+}
+.deanery-main-practice-header1{
+    font-size: 20px;
+    color: black;
+    padding: 5px;
+    text-align: left;
+}
+.deanery-main-practice-header2{
+    font-size: 18px;
+    color: black;
+    float: right;
+    line-height: 30px;
+}
+.deanery-main .panel .panel-body{
+    padding: 0;
+}
+.deanery-main .panel .panel-body a{
+    font-size: 18px;
+    color: gray;
+    padding: 5px 20px;
+    width: 100%;
+    display: block;
+    border-bottom: 1px solid #d6d6d6;
+}
+.table td{
+    border: 1px solid gray !important;
+}
+.deanery-practice-form label{
+    display: inline-block;
+}
+.deanery-practice-form-up{
+    position: relative;
+    border: solid #f7f7f9 2px;
+    padding: 15px 20px;
+    border-radius: 5px;
+}
+.deanery-practice-form input, .deanery-practice-form select{
+    display: block;
+    width: 100%;
+    font-size: 18px;
+    color: #464a4c;
+    background-color: #fff;
+    background-image: none;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 5px;
+    height: 35px;
+    padding: 0 15px;
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+}
+.deanery-practice-form select{
+    height: 100%;
+}
+.deanery-practice-form input[type="checkbox"]{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-top: 0;
+    vertical-align: middle;
+}
