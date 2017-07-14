@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, render_to_response
 from django.template.context_processors import csrf
 from django.contrib import auth
 from django.contrib.auth.models import Group, User
+from generator.models import *
 
 
 def login(request):
@@ -17,7 +18,9 @@ def login(request):
             if request.user.groups.get().name == "Students":
                 return render_to_response('student/index.html')
             elif request.user.groups.get().name == "Deanery":
-                return render_to_response('deanery/index.html')
+                practices = Practice.objects.all()[:5]
+                students = Student.objects.all()[:10]
+                return render(request, 'deanery/index.html', locals())
             else:
                 args['login_error'] = "Пользователь не найден"
                 return render_to_response('login/login.html', args)
@@ -30,7 +33,9 @@ def login(request):
             if request.user.groups.get().name == "Students":
                 return render_to_response('student/index.html')
             elif request.user.groups.get().name == "Deanery":
-                return render_to_response('deanery/index.html')
+                practices = Practice.objects.all()[:5]
+                students = Student.objects.all()[:10]
+                return render(request, 'deanery/index.html', locals())
         else:
             return render_to_response('login/login.html', args)
 

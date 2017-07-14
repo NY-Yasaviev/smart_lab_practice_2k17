@@ -36,6 +36,7 @@ class Student(Model):
     password = CharField(max_length=16, null=True)
     user = OneToOneField(User, on_delete=CASCADE, null=True)
     name = CharField(max_length=60, null=True)
+    course = IntegerField(max_length=1, null=True)
     group = CharField(max_length=10, null=True)
     practice = ManyToManyField(Practice)
     edu_profile = CharField(max_length=50, null=True)

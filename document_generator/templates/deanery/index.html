@@ -1,6 +1,18 @@
 {% extends 'main.html' %}
 
 {%  block body %}
-    <p>qq deanery</p>
     <a href="/logout/">Выйти</a>
+    <div>
+        <a href="/practices/">Практики:</a>
+
+        {% for practice in practices %}
+            <a href="/practices/{{ practice.id }}/">{{ practice.name }}</a>
+        {% endfor %}
+    </div>
+    <div>
+        <a href="/students/">Студенты:</a>
+        {% for student in students %}
+            <a href="/students/{{ student.id }}/">{{ student.name }}</a>
+        {% endfor %}
+    </div>
 {% endblock %}
