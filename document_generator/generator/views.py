@@ -38,6 +38,8 @@ def new_practice(request):
 def edit_practice(request, id):
     title = "Редактирование практики"
     practice = Practice.objects.get(pk=id)
+    # students_list = Student.objects.get(practice=practice)
+    students_list = Student.objects.all().filter(practice=practice)
     if request.POST:
         form = PracticeForm(request.POST or None, instance=practice)
         if form.is_valid():
@@ -45,7 +47,7 @@ def edit_practice(request, id):
             return redirect("/practices/%s/" % id)
     else:
         form = PracticeForm(instance=practice)
-        return render(request, 'deanery/practice.html', {'form': form}, locals())
+        return render(request, 'deanery/practice.html', locals())
 
 
 @user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())

@@ -14,9 +14,15 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Главная</a></li>
-                <li><a href="/practices/">Практики</a></li>
-                <li><a href="/students/">Студенты</a></li>
+                <li class="{% if title == "Главная" %}
+                    active
+                {% endif %}"><a href="/">Главная</a></li>
+                <li class="{% if title == "Практики" %}
+                    active
+                {% endif %}"><a href="/practices/">Практики</a></li>
+                <li class="{% if title == "Студенты" %}
+                    active
+                {% endif %}"><a href="/students/">Студенты</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/logout/">Выйти</a></li>
