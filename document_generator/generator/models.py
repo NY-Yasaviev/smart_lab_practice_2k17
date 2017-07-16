@@ -3,29 +3,22 @@ from django.db.models import Model, DateField, CharField, IntegerField, ForeignK
 from django.contrib.auth.models import User, Group
 
 
-class Type(Model):
-    EDU = 'EDU'
-    PROD = 'PROD'
-    DIP = 'DIP'
-    CHOICES = (
-        (EDU, 'Учебная'),
-        (PROD, 'Производственная'),
-        (DIP, 'Преддипломная'))
-    name = CharField(max_length=20,
-                     choices=CHOICES,
-                     default=EDU)
-    company = CharField(max_length=60, null=True)
-    address = CharField(max_length=60, null=True)
-
-    def __str__(self):
-        return "%s , %s, %s" % (self.name, self.company, self.address)
-
-
 class Practice(Model):
     name = CharField(max_length=60, null=True)
     teacher = CharField(max_length=60, null=True)
     director = CharField(max_length=60, null=True)
-    type = ForeignKey(Type, on_delete=CASCADE)
+    company = CharField(max_length=60, null=True)
+    address = CharField(max_length=60, null=True)
+    EDU = 'Учебная'
+    PROD = 'Произведственная'
+    DIP = 'Преддипломная'
+    CHOICES = (
+        (EDU, 'Учебная'),
+        (PROD, 'Производственная'),
+        (DIP, 'Преддипломная'))
+    type = CharField(max_length=20,
+                     choices=CHOICES,
+                     default=EDU)
 
     def __str__(self):
         return self.name
@@ -75,12 +68,21 @@ class Pass(Model):
 class Dates(Model):
     dateFrom = DateField
     dateTo = DateField
-    practice = ForeignKey(Student, on_delete=CASCADE)
+    practice = ForeignKey(Practice, on_delete=CASCADE)
 
 
 class IndividualTask(Model):
     student = ForeignKey(Student, on_delete=CASCADE, related_name='студент')
     dateFrom = DateField
     dateTo = DateField
-    practice = ForeignKey(Student, on_delete=CASCADE, related_name='практика', null=True)
     task_number = IntegerField
+    EDU = 'Учебная'
+    PROD = 'Произведственная'
+    DIP = 'Преддипломная'
+    CHOICES = (
+        (EDU, 'Учебная'),
+        (PROD, 'Производственная'),
+        (DIP, 'Преддипломная'))
+    practice_type = CharField(max_length=20,
+                              choices=CHOICES,
+                              default=EDU)
