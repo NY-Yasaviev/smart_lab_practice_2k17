@@ -23,7 +23,7 @@ def login(request):
                 form = StudentForm(request.POST or None, instance=student)
                 if form.is_valid():
                     form.save()
-                return render(request, 'student/index.html', locals())
+                return redirect("/")
             elif request.user.groups.get().name == "Deanery":
                 title = "Главная"
                 practices = Practice.objects.all()[:5]
