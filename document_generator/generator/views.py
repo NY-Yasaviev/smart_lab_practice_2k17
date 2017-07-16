@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response, render, redirect
 from .models import *
 from .forms import *
 from django.contrib.auth import get_user_model
+from django.forms.formsets import formset_factory
 
 
 def edit_report(request):
@@ -73,7 +74,13 @@ def new_student(request):
 
 
 def student_report(request, id):
-    pass
+    if request.POST:
+        student = Student.objects.get(pk=id)
+        group = student.group
+        fio = student.name
+        form = ReportForm(initial={
+            'fio': fio
+        })
 
 
 def student_individual(request, id):
