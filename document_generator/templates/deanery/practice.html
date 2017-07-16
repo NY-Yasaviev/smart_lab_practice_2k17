@@ -1,6 +1,8 @@
 {% extends 'main.html' %}
 
 {% block body %}
+    {% include 'menuForDeanery.html' %}
+    <h1 style="text-align:center">Информация о практике:</h1>
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
@@ -10,6 +12,33 @@
                         {{ form.as_p }}
                         <button type="submit" class="btn btn-primary">Отправить</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1 style="text-align:center">Студенты в этой практике:</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="practice-students">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>ФИО</th>
+                            <th>Курс</th>
+                            <th>Группа</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for student in students_list %}
+                            <tr>
+                                <td><a href="/students/{{ student.id }}/">{{ student.name }}</a></td>
+                                <td>{{ student.course }}</td>
+                                <td>{{ student.group }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

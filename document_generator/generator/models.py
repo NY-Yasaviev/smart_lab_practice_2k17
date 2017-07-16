@@ -31,7 +31,7 @@ class Student(Model):
     name = CharField(max_length=60, null=True)
     course = IntegerField(max_length=1, null=True)
     group = CharField(max_length=10, null=True)
-    practice = ManyToManyField(Practice)
+    practice = ManyToManyField(Practice, blank=True)
     edu_profile = CharField(max_length=50, null=True)
     contract = BooleanField(default=False)
     degree = CharField(max_length=50, null=True)
@@ -39,6 +39,13 @@ class Student(Model):
 
     def __str__(self):
         return "%s - %s" % (self.name, self.group)
+
+    def practice_view(self):
+        str = ""
+        practices = self.practice.all()
+        for practice in practices:
+            str += "%s, " % practice
+        return str[:-2]
 
 
 class Diary(Model):
