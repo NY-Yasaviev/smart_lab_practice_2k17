@@ -1,6 +1,10 @@
 {% extends 'main.html' %}
 
-{%  block body %}
-    <p>qq student</p>
+{% block body %}
+    <form action="/" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
     <a href="/logout/">Выйти</a>
 {% endblock %}

@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect, render_to_response
 from django.template.context_processors import csrf
 from django.contrib import auth
 from django.contrib.auth.models import Group, User
+
+from generator.forms import StudentForm
 from generator.models import *
 
 
@@ -17,7 +19,11 @@ def login(request):
             auth.login(request, user)
             if request.user.groups.get().name == "Students":
                 title = "Главная"
-                return render_to_response('student/index.html')
+                student = Student.objects.get(user=request.user)
+                form = StudentForm(request.POST or None, instance=student)
+                if form.is_valid():
+                    form.save()
+                return render(request, 'student/index.html', locals())
             elif request.user.groups.get().name == "Deanery":
                 title = "Главная"
                 practices = Practice.objects.all()[:5]
@@ -36,7 +42,9 @@ def login(request):
         if auth.get_user(request).is_authenticated:
             if request.user.groups.get().name == "Students":
                 title = "Главная"
-                return render_to_response('student/index.html')
+                student = Student.objects.get(user=request.user)
+                form = StudentForm(instance=student)
+                return render(request, 'student/index.html', locals())
             elif request.user.groups.get().name == "Deanery":
                 title = "Главная"
                 practices = Practice.objects.all()[:5]

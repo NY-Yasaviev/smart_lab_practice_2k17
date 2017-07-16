@@ -92,7 +92,7 @@ def edit_student(request, id):
         form = StudentForm(request.POST or None, instance=student)
         if form.is_valid():
             form.save()
-            return redirect("/students/%s/" % id)
+            return redirect("/students/")
     else:
         form = StudentForm(instance=student)
         return render(request, 'deanery/student.html', {'form': form}, locals())
