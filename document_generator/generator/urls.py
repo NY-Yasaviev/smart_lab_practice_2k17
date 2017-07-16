@@ -2,10 +2,12 @@ from django.conf.urls import url, include
 from . import views
 
 urlpatterns = [
+    # Student
     url(r'^diary/', views.edit_diary, name='diary'),
     url(r'^report/', views.edit_report, name='report'),
     url(r'^individual/', views.edit_individual, name='individual'),
     url(r'^pass/', views.edit_pass, name='pass'),
+    # Deanery
     url(r'^practices/new/', views.new_practice, name='new_practice'),
     url(r'^practices/(?P<id>\d+)/', views.edit_practice, name='edit_practice'),
     url(r'^practices/', views.practices, name='practices'),
@@ -16,4 +18,3 @@ urlpatterns = [
     url(r'^students/(?P<id>\d+)/', views.edit_student, name='edit_student'),
     url(r'^students/', views.students, name='students'),
 ]
-

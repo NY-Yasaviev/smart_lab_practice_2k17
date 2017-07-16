@@ -22,5 +22,4 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('generator.urls')),
     url(r'^', include('login.urls')),
-
 ]
