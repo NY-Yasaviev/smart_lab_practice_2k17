@@ -8,12 +8,6 @@ class PracticeForm(ModelForm):
         fields = '__all__'
 
 
-class DatesForm(ModelForm):
-    class Meta:
-        model = Dates
-        exclude = ['practice']
-
-
 class StudentForm(ModelForm):
     class Meta:
         model = Student
@@ -44,7 +38,7 @@ class PassForm(ModelForm):
 class IndividualTaskForm(ModelForm):
     class Meta:
         model = IndividualTask
-        fields = '__all__'
+        exclude = ['task_number', 'doc', 'type']
 
 
 class IndividualTaskDocForm(Form):
@@ -55,5 +49,5 @@ class IndividualTaskDocForm(Form):
 
 class ReportDocForm(ModelForm):
     class Meta:
-        model = ReportDocForm
+        model = Report
         fields = []
