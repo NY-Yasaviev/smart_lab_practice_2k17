@@ -8,6 +8,9 @@ urlpatterns = [
     url(r'^individual/', views.edit_individual, name='individual'),
     url(r'^pass/', views.edit_pass, name='pass'),
     # Deanery
+    url(r'^ind_tasks/(?P<id>)/', views.ind_edit, name='new_ind'),
+    url(r'^ind_tasks/add/(?P<type>)', views.new_ind, name='new_ind'),
+    url(r'^ind_tasks/', views.ind_list, name='ind_list'),
     url(r'^practices/new/', views.new_practice, name='new_practice'),
     url(r'^practices/(?P<id>\d+)/', views.edit_practice, name='edit_practice'),
     url(r'^practices/', views.practices, name='practices'),

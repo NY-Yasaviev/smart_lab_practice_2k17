@@ -9,6 +9,20 @@ from django.contrib.auth import get_user_model
 from django.forms.formsets import formset_factory
 
 
+def ind_edit(request, id):
+    pass
+
+
+@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
+def ind_list(request):
+    pass
+
+
+@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
+def new_ind(request, type):
+    pass
+
+
 def edit_report(request):
     pass
 
@@ -66,6 +80,8 @@ def new_student(request):
             student.user = user
             student.save()
             form.save_m2m()
+            # creating docs
+            pass_doc = Pass.objects.create()
             return redirect("/students/")
     else:
         form = StudentForm()
@@ -75,11 +91,14 @@ def new_student(request):
 def reports(request, id):
     pass
 
+
 def inds(request, id):
     pass
 
+
 def passes(request, id):
     pass
+
 
 def student_report(request, id, rep_id):
     student = Student.objects.get(pk=id)
@@ -90,11 +109,19 @@ def student_report(request, id, rep_id):
     return render(request, 'deanery/report.html', locals())
 
 
-def student_individual(request, id):
-    pass
+def student_individual(request, id, ind_id):
+    doc = IndividualTaskDoc.objects.get(pk=ind_id)
+    records = IndividualTask.objecs.get(doc=doc)
+    practice = doc.practice
+    student = doc.student
+    fio = student.name
+    edu_profile = student.edu_profile
+    place_of_practice, date_from, date_to, director = \
+        practice.company, practice.date_from, practice.date_to, practice.director
+    return render(request, 'deanery/individual.html', locals())
 
 
-def student_pass(request, id):
+def student_pass(request, id, pass_id):
     pass
 
 
