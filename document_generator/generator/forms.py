@@ -46,7 +46,7 @@ class PassForm(ModelForm):
 class IndividualTaskForm(ModelForm):
     class Meta:
         model = IndividualTask
-        fields = '__all__'
+        exclude = ['task_number', 'doc', 'type']
 
 
 class IndividualTaskDocForm(Form):

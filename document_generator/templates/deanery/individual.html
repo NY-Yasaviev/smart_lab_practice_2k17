@@ -1,0 +1,12 @@
+{extends 'main.html }
+
+{% block body %}
+{% for practice in practice_list %}
+<h2>{{ practice.name }}</h2>
+<p>Название компании: </p>{{ practice.company }}
+<p>Студент: </p>{{ fio }}
+<p>Группа: </p>{{ group }}
+<p>Руководитель практики от института: </p>{{ teacher }}
+<p>Руководитель практики от предприятия: </p>{{ passes.practice.director }}
+{% endfor %}
+{% endblock %}

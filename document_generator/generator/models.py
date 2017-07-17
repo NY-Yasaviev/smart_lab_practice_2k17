@@ -9,6 +9,8 @@ class Practice(Model):
     director = CharField(max_length=60, null=True)
     company = CharField(max_length=60, null=True)
     address = CharField(max_length=60, null=True)
+    date_from = DateField
+    date_to = DateField
     EDU = 'Учебная'
     PROD = 'Произведственная'
     DIP = 'Преддипломная'
@@ -33,7 +35,7 @@ class Student(Model):
     name = CharField(max_length=60, null=True)
     course = IntegerField(max_length=1, null=True)
     group = CharField(max_length=10, null=True)
-    practice = ManyToManyField(Practice, blank=True)
+    practice = ManyToManyField(Practice)
     edu_profile = CharField(max_length=50, null=True)
     contract = BooleanField(default=False)
     degree = CharField(max_length=50, null=True)
@@ -79,13 +81,18 @@ class Pass(Model):
     company_director = CharField(max_length=60, null=True)
 
 
+class IndividualTaskDoc(Model):
+    practice = OneToOneField(Practice, on_delete=CASCADE, null=True)
+    student = ForeignKey(Student, on_delete=CASCADE)
+
+
 class IndividualTask(Model):
     # student = ForeignKey(Student, on_delete=CASCADE, related_name='студент')
-    dateFrom = DateField
-    dateTo = DateField
+    dateFrom = DateField(null=True)
+    dateTo = DateField(null=True)
+    desc = CharField(max_length=200, null=True)
     task_number = IntegerField
-    desc = CharField(max_length=200)
-    doc = ForeignKey('IndividualTaskDoc', on_delete=CASCADE, null=True)
+    doc = ManyToManyField(IndividualTaskDoc)
     EDU = 'Учебная'
     PROD = 'Произведственная'
     DIP = 'Преддипломная'
@@ -96,11 +103,6 @@ class IndividualTask(Model):
     practice_type = CharField(max_length=20,
                               choices=CHOICES,
                               default=EDU)
-
-
-class IndividualTaskDoc(Model):
-    practice = OneToOneField(Practice, on_delete=CASCADE, null=True)
-    student = ForeignKey(Student, on_delete=CASCADE)
 
 
 class Report(Model):

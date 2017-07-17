@@ -1,14 +1,18 @@
 {% extends 'main.html' %}
 
 {% block body %}
-    <form action="/" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Отправить</button>
-    </form>
-    <a href="/diary/">Дневник</a>
-    <a href="/report/">Отчет</a>
-    <a href="/individual/">Индвидуальное задание</a>
-    <a href="/pass/">Путевка</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="deanery-practice-form-up">
+                    <form action="" method="post" class="deanery-practice-form">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <a href="/logout/">Выйти</a>
 {% endblock %}

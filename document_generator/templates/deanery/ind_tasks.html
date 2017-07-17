@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+
+{%  block body %}
+<h1>Индивидуальные задания</h1>
+
+<p>Учебная практика</p>
+<a href="/ind_tasks/add/edu/">Добавить задание</a>
+{% for task in edu_tasks %}
+<a href="/ind_tasks/{{task.id}}/">{{ task.desc }}</a>
+{% endfor %}
+
+<p>Производственная практика</p>
+<a href="/ind_tasks/add/prod/">Добавить задание</a>
+{% for task in prod_tasks %}
+<a href="/ind_tasks/{{task.id}}/">{{ task.desc }}</a>
+{% endfor %}
+
+<p>Преддипломная практика</p>
+<a href="/ind_tasks/add/dip/">Добавить задание</a>
+{% for task in dip_tasks %}
+<a href="/ind_tasks/{{task.id}}/">{{ task.desc }}</a>
+{% endfor %}
+
+{% endblock %}
