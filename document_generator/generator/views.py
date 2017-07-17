@@ -34,7 +34,6 @@ def new_practice(request):
         return render(request, 'deanery/addPractice.html', {'form': form})
 
 
-
 @user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
 def edit_practice(request, id):
     title = "Редактирование практики"
@@ -73,14 +72,22 @@ def new_student(request):
         return render(request, 'deanery/addStudent.html', {'form': form})
 
 
-def student_report(request, id):
-    if request.POST:
-        student = Student.objects.get(pk=id)
-        group = student.group
-        fio = student.name
-        form = ReportForm(initial={
-            'fio': fio
-        })
+def reports(request, id):
+    pass
+
+def inds(request, id):
+    pass
+
+def passes(request, id):
+    pass
+
+def student_report(request, id, rep_id):
+    student = Student.objects.get(pk=id)
+    group = student.group
+    fio = student.name
+    practice = Report.objects.get(pk=rep_id).practice
+    teacher, director = practice.teacher, practice.director
+    return render(request, 'deanery/report.html', locals())
 
 
 def student_individual(request, id):

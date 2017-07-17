@@ -48,10 +48,12 @@ class IndividualTaskForm(ModelForm):
 
 
 class IndividualTaskDocForm(Form):
-    edu_profile = CharField
-    company_name = CharField
-    fio = CharField
-    dateFrom = DateField
-    dateTo = DateField
-    institute_practice_chief = CharField
-    company_practice_chief = CharField
+    class Meta:
+        model = IndividualTaskDoc
+        fields = []
+
+
+class ReportDocForm(ModelForm):
+    class Meta:
+        model = ReportDocForm
+        fields = []
