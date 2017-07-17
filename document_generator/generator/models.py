@@ -66,10 +66,11 @@ class Pass(Model):
     contract_date = DateField
     practice = OneToOneField(Practice)
     necessary_works = CharField(max_length=230, null=True)
-    student = ForeignKey(Student)
+    student = ForeignKey(Student, on_delete=CASCADE)
     report = TextField(max_length=2140, null=True)
     review = TextField(max_length=1540, null=True)
     mark = CharField(max_length=20, null=True)
+    company_director = CharField(max_length=60, null=True)
 
 
 class Dates(Model):
@@ -83,6 +84,7 @@ class IndividualTask(Model):
     dateFrom = DateField
     dateTo = DateField
     task_number = IntegerField
+    doc = ForeignKey('IndividualTaskDoc', on_delete=CASCADE)
     EDU = 'Учебная'
     PROD = 'Произведственная'
     DIP = 'Преддипломная'
@@ -93,3 +95,13 @@ class IndividualTask(Model):
     practice_type = CharField(max_length=20,
                               choices=CHOICES,
                               default=EDU)
+
+
+class IndividualTaskDoc(Model):
+    practice = OneToOneField(Practice, on_delete=CASCADE, null=True)
+    student = ForeignKey(Student, on_delete=CASCADE)
+
+
+class Report(Model):
+    practice = OneToOneField(Practice, on_delete=CASCADE, null=True)
+    student = ForeignKey(Student, on_delete=CASCADE)
