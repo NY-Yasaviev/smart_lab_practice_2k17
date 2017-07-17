@@ -3,10 +3,14 @@ from . import views
 
 urlpatterns = [
     # Student
-    url(r'^diary/', views.edit_diary, name='diary'),
-    url(r'^report/', views.edit_report, name='report'),
-    url(r'^individual/', views.edit_individual, name='individual'),
-    url(r'^pass/', views.edit_pass, name='pass'),
+    url(r'^diary/(?P<id>\d+)/', views.edit_diary, name='diary'),
+    url(r'^diary/', views.diaries, name='diaries'),
+    url(r'^report/(?P<id>\d+)/', views.edit_report, name='report'),
+    url(r'^report/', views.reports, name='reports'),
+    url(r'^individual/(?P<id>\d+)/', views.edit_individual, name='individual'),
+    url(r'^individual/', views.inds, name='individuals'),
+    url(r'^pass/(?P<id>\d+)/', views.edit_pass, name='pass'),
+    url(r'^pass/', views.passes, name='passes'),
     # Deanery
     url(r'^practices/new/', views.new_practice, name='new_practice'),
     url(r'^practices/(?P<id>\d+)/', views.edit_practice, name='edit_practice'),
