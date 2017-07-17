@@ -4,6 +4,11 @@ from . import views
 urlpatterns = [
     # Student
     url(r'^diary/', views.edit_diary, name='diary'),
+    url(r'^diaryview/', views.diary_view, name='diaryview'),
+    url(r'^reportview/', views.report_view, name='reportview'),
+    url(r'^individualview1/', views.indone_view, name='individualview1'),
+    url(r'^individualview2/', views.indtwo_view, name='individualview2'),
+    url(r'^passview/', views.pass_view, name='passview'),
     url(r'^report/', views.edit_report, name='report'),
     url(r'^individual/', views.edit_individual, name='individual'),
     url(r'^pass/', views.edit_pass, name='pass'),
