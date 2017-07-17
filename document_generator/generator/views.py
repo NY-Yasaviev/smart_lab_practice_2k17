@@ -128,3 +128,18 @@ def students(request):
     title = "Студенты"
     students_list = Student.objects.all()
     return render(request, 'deanery/students.html', locals())
+
+def diary_view(request):
+    return render(request, 'student/diaryView.html', locals())
+
+def report_view(request):
+    return render(request, 'student/reportView.html', locals())
+
+def indone_view(request):
+    return render(request, 'student/indView1.html', locals())
+
+def indtwo_view(request):
+    return render(request, 'student/indView2.html', locals())
+
+def pass_view(request):
+    return render(request, 'student/passView.html', locals())
