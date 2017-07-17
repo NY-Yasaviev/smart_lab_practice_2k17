@@ -1,17 +1,19 @@
-from django.forms import Form, ModelForm, ModelMultipleChoiceField, CharField, IntegerField, Field
+from django.forms import Form, ModelForm, ModelMultipleChoiceField, CharField, IntegerField, Field, DateInput
 from .models import *
+
+
+class DateInput(DateInput):
+    input_type = 'date'
 
 
 class PracticeForm(ModelForm):
     class Meta:
         model = Practice
         fields = '__all__'
-
-
-class DatesForm(ModelForm):
-    class Meta:
-        model = Dates
-        exclude = ['practice']
+        widgets = {
+            "start": DateInput(),
+            "end": DateInput()
+        }
 
 
 class StudentForm(ModelForm):

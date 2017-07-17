@@ -19,6 +19,8 @@ class Practice(Model):
     type = CharField(max_length=20,
                      choices=CHOICES,
                      default=EDU)
+    date_from = DateField("start", null=True)
+    date_to = DateField("end", null=True)
 
     def __str__(self):
         return self.name
@@ -50,9 +52,13 @@ class Student(Model):
 
 class Diary(Model):
     student = ForeignKey(Student, on_delete=CASCADE)
+    practice = OneToOneField(Practice, null=True)
+
+
+class DiaryRecord(Model):
     description = CharField(max_length=40, null=True)
     date = DateField
-    practice = OneToOneField(Practice, null=True)
+    diary = ForeignKey(Diary, on_delete=CASCADE)
 
 
 class Deanery(Model):
@@ -73,18 +79,13 @@ class Pass(Model):
     company_director = CharField(max_length=60, null=True)
 
 
-class Dates(Model):
-    dateFrom = DateField
-    dateTo = DateField
-    practice = ForeignKey(Practice, on_delete=CASCADE)
-
-
 class IndividualTask(Model):
-    student = ForeignKey(Student, on_delete=CASCADE, related_name='студент')
+    # student = ForeignKey(Student, on_delete=CASCADE, related_name='студент')
     dateFrom = DateField
     dateTo = DateField
     task_number = IntegerField
-    doc = ForeignKey('IndividualTaskDoc', on_delete=CASCADE)
+    desc = CharField(max_length=200)
+    doc = ForeignKey('IndividualTaskDoc', on_delete=CASCADE, null=True)
     EDU = 'Учебная'
     PROD = 'Произведственная'
     DIP = 'Преддипломная'

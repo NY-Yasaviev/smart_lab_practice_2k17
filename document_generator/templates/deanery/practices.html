@@ -10,6 +10,8 @@
             <th>Компания</th>
             <th>Адрес</th>
             <th>Тип практики</th>
+            <th>Дата начала</th>
+            <th>Дата окончания</th>
         </tr>
         </thead>
         <tbody>
@@ -21,6 +23,8 @@
                 <td>{{ practice.company }}</td>
                 <td>{{ practice.address }}</td>
                 <td>{{ practice.type }}</td>
+                <td>{{ practice.date_from }}</td>
+                <td>{{ practice.date_to }}</td>
             </tr>
         {% endfor %}
         </tbody>

@@ -29,6 +29,8 @@ def new_practice(request):
         if form.is_valid():
             form.save()
             return redirect("/practices/")
+        else:
+            return render(request, 'deanery/addPractice.html', {'form': form})
     else:
         form = PracticeForm()
         return render(request, 'deanery/addPractice.html', {'form': form})
@@ -44,7 +46,7 @@ def edit_practice(request, id):
         form = PracticeForm(request.POST or None, instance=practice)
         if form.is_valid():
             form.save()
-            return redirect("/practices/%s/" % id)
+        return redirect("/practices/")
     else:
         form = PracticeForm(instance=practice)
         return render(request, 'deanery/practice.html', locals())
@@ -57,6 +59,9 @@ def new_student(request):
         form = StudentForm(request.POST or None)
         if form.is_valid():
             student = form.save(commit=False)
+            for practice in student.practice.objects.all():
+                diary = DiaryForm(student=student, practice=practice)
+                diary.save()
             login = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
             password = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
             user = get_user_model().objects.create_user(username=login, password=password)
@@ -131,7 +136,9 @@ def students(request):
 
 
 def student_diaries(request):
-    return None
+    title = "Дневник практики"
+    diaries_list = Diary.objects.all()
+    return render(request,'student/diaries.html', locals())
 
 
 def student_reports(request):
