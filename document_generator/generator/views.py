@@ -128,3 +128,19 @@ def students(request):
     title = "Студенты"
     students_list = Student.objects.all()
     return render(request, 'deanery/students.html', locals())
+
+
+def student_diaries(request):
+    return None
+
+
+def student_reports(request):
+    return None
+
+
+def student_inds(request):
+    return None
+
+
+def student_passes(request):
+    return None

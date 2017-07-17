@@ -4,13 +4,13 @@ from . import views
 urlpatterns = [
     # Student
     url(r'^diary/(?P<id>\d+)/', views.edit_diary, name='diary'),
-    url(r'^diary/', views.diaries, name='diaries'),
+    url(r'^diary/', views.student_diaries, name='diaries'),
     url(r'^report/(?P<id>\d+)/', views.edit_report, name='report'),
-    url(r'^report/', views.reports, name='reports'),
+    url(r'^report/', views.student_reports, name='reports'),
     url(r'^individual/(?P<id>\d+)/', views.edit_individual, name='individual'),
-    url(r'^individual/', views.inds, name='individuals'),
+    url(r'^individual/', views.student_inds, name='individuals'),
     url(r'^pass/(?P<id>\d+)/', views.edit_pass, name='pass'),
-    url(r'^pass/', views.passes, name='passes'),
+    url(r'^pass/', views.student_passes, name='passes'),
     # Deanery
     url(r'^practices/new/', views.new_practice, name='new_practice'),
     url(r'^practices/(?P<id>\d+)/', views.edit_practice, name='edit_practice'),

@@ -55,5 +55,5 @@ class IndividualTaskDocForm(Form):
 
 class ReportDocForm(ModelForm):
     class Meta:
-        model = ReportDocForm
+        model = Report
         fields = []
