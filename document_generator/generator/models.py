@@ -4,11 +4,12 @@ from django.contrib.auth.models import User, Group
 
 
 class Practice(Model):
-    name = CharField(max_length=60, null=True)
-    teacher = CharField(max_length=60, null=True)
-    director = CharField(max_length=60, null=True)
-    company = CharField(max_length=60, null=True)
-    address = CharField(max_length=60, null=True)
+    name = CharField(max_length=60, null=True)  # название практика
+    teacher = CharField(max_length=60, null=True)  # руководитель от универа
+    chief = CharField(max_length=60, null=True)  # руководитель от компании
+    director = CharField(max_length=60, null=True)  # директор компании
+    company = CharField(max_length=60, null=True)  # название организации
+    address = CharField(max_length=60, null=True)  # адрес
     EDU = 'Учебная'
     PROD = 'Произведственная'
     DIP = 'Преддипломная'
@@ -19,8 +20,9 @@ class Practice(Model):
     type = CharField(max_length=20,
                      choices=CHOICES,
                      default=EDU)
-    date_from = DateField("start", null=True)
-    date_to = DateField("end", null=True)
+    date_from = DateField("Начало", null=True)
+    date_to = DateField("Окончание", null=True)
+    necessary_works = CharField(max_length=230, null=True)  # в каких видах работ нуждается
 
     def __str__(self):
         return self.name
@@ -34,10 +36,17 @@ class Student(Model):
     course = IntegerField(max_length=1, null=True)
     group = CharField(max_length=10, null=True)
     practice = ManyToManyField(Practice)
-    edu_profile = CharField(max_length=50, null=True)
-    contract = BooleanField(default=False)
-    degree = CharField(max_length=50, null=True)
-    status = CharField(max_length=20, null=True)
+    engineering = '09.03.04 Программная инженерия'
+    informatics = '09.03.03 Прикладная информатика'
+    edu_profile = CharField(choices=(
+        (engineering, '09.03.04 Программная инженерия'),
+        (informatics, '09.03.03 Прикладная информатика'),
+    ), max_length=50, null=True, default=engineering)  # направление
+    contract = BooleanField(default=False)  # наличие договора
+    status = CharField(max_length=20, null=True)  # бакалавр и тд.
+    report = TextField(max_length=2140, null=True)  # big field 1
+    review = TextField(max_length=1540, null=True)  # big field 2
+    mark = CharField(max_length=20, null=True)  # оценка
 
     def __str__(self):
         return "%s - %s" % (self.name, self.group)
@@ -52,7 +61,7 @@ class Student(Model):
 
 class Diary(Model):
     student = ForeignKey(Student, on_delete=CASCADE, null=True)
-    practice = OneToOneField(Practice, null=True, default=None)
+    practice = OneToOneField(Practice, null=True)
 
 
 class DiaryRecord(Model):
@@ -67,30 +76,11 @@ class Deanery(Model):
     user = OneToOneField(User, on_delete=CASCADE)
 
 
-class Pass(Model):
-    contract_number = IntegerField(null=True)
-    contract_date = DateField(null=True)
-    practice = OneToOneField(Practice, null=True)
-    necessary_works = CharField(max_length=230, null=True)
-    student = ForeignKey(Student, on_delete=CASCADE)
-    report = TextField(max_length=2140, null=True)
-    review = TextField(max_length=1540, null=True)
-    mark = CharField(max_length=20, null=True)
-    company_director = CharField(max_length=60, null=True)
-
-
-class IndividualTaskDoc(Model):
-    practice = OneToOneField(Practice, on_delete=CASCADE, null=True)
-    student = ForeignKey(Student, on_delete=CASCADE)
-
-
 class IndividualTask(Model):
-    # student = ForeignKey(Student, on_delete=CASCADE, related_name='студент')
     dateFrom = DateField(blank=True, null=True)
     dateTo = DateField(blank=True, null=True)
     desc = CharField(max_length=200, null=True)
     task_number = IntegerField
-    doc = ManyToManyField(IndividualTaskDoc)
     EDU = 'Учебная'
     PROD = 'Произведственная'
     DIP = 'Преддипломная'
@@ -101,8 +91,3 @@ class IndividualTask(Model):
     practice_type = CharField(max_length=20,
                               choices=CHOICES,
                               default=EDU)
-
-
-class Report(Model):
-    practice = OneToOneField(Practice, on_delete=CASCADE, null=True)
-    student = ForeignKey(Student, on_delete=CASCADE)
