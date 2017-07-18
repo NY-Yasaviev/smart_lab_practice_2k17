@@ -6,7 +6,7 @@ from django.contrib.auth.models import User, Group
 class Practice(Model):
     name = CharField(max_length=60, null=True)  # название практика
     teacher = CharField(max_length=60, null=True)  # руководитель от универа
-    chief = CharField(max_length=60, null=True)  # руководитель от компании
+    chief = CharField(max_length=100, null=True)  # руководитель от компании
     director = CharField(max_length=60, null=True)  # директор компании
     company = CharField(max_length=60, null=True)  # название организации
     address = CharField(max_length=60, null=True)  # адрес
@@ -22,7 +22,7 @@ class Practice(Model):
                      default=EDU)
     date_from = DateField("Начало", null=True)
     date_to = DateField("Окончание", null=True)
-    necessary_works = CharField(max_length=230, null=True)  # в каких видах работ нуждается
+    necessary_works = CharField(max_length=80, null=True)  # в каких видах работ нуждается
 
     def __str__(self):
         return self.name
@@ -44,8 +44,8 @@ class Student(Model):
         max_length=50, null=True, default=engineering)  # направление
     contract = BooleanField(default=False)  # наличие договора
     status = CharField(max_length=20, null=True)  # бакалавр и тд.
-    report = TextField(max_length=2140, null=True)  # big field 1
-    review = TextField(max_length=1540, null=True)  # big field 2
+    report = TextField(max_length=1429, null=True)  # big field 1
+    review = TextField(max_length=1034, null=True)  # big field 2
     mark = CharField(max_length=20, null=True)  # оценка
 
     def __str__(self):

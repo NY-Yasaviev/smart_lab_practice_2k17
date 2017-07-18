@@ -19,7 +19,7 @@ def ind_list(request):
 @user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
 def ind_edit(request, id):
     title = "Редактирование индивидуального задания"
-    ind = IndividualTask.object.get(pk=id)
+    ind = IndividualTask.objects.get(pk=id)
     if request.POST:
         form = IndividualTaskForm(request.POST or None, instance=ind)
         if form.is_valid():
@@ -45,8 +45,8 @@ def new_ind(request, type):
     if request.POST:
         number = IndividualTask.objects.filter(practice_type=choice).count() + 1
         form = IndividualTaskForm(request.POST or None, initial={
-            'practice_type':choice,
-            'task_number':number
+            'practice_type': choice,
+            'task_number': number
         })
         if form.is_valid():
             form.save()
@@ -55,7 +55,7 @@ def new_ind(request, type):
             return render(request, 'deanery/addIndTask.html', {'form': form})
     else:
         form = IndividualTaskForm(initial={
-            'practice_type':choice
+            'practice_type': choice
         })
         return render(request, 'deanery/addIndTask.html', {'form': form})
 
@@ -80,6 +80,8 @@ def new_practice(request):
         if form.is_valid():
             form.save()
             return redirect("/practices/")
+        else:
+            return render(request, 'deanery/addPractice.html', {'form': form})
     else:
         form = PracticeForm()
         return render(request, 'deanery/addPractice.html', {'form': form})
@@ -96,6 +98,8 @@ def edit_practice(request, id):
         if form.is_valid():
             form.save()
             return redirect("/practices/%s/" % id)
+        else:
+            return render(request, 'deanery/practice.html', {'form': form})
     else:
         form = PracticeForm(instance=practice)
         return render(request, 'deanery/practice.html', locals())
@@ -116,12 +120,10 @@ def new_student(request):
             student.password = password
             student.user = user
             student.save()
-            # creating docs
-            for practice in form.cleaned_data['practice']:
-                ind_tasks = IndividualTaskDocForm(student=student, practice=practice)
-                ind_tasks.save()
             form.save_m2m()
             return redirect("/students/")
+        else:
+            return render(request, 'deanery/addStudent.html', {'form': form})
     else:
         form = StudentForm()
         return render(request, 'deanery/addStudent.html', {'form': form})

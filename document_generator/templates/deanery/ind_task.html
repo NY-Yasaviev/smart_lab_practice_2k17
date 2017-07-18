@@ -3,10 +3,7 @@
 {% block body %}
 <form action="" method="post" class="deanery-practice-form">
     {% csrf_token %}
-    <p>Описание задания: </p>
-    <input type="text" name="{{ form.desc.name }}">
-    <p>Порядковый номер задания: </p>
-    <input type="text" name="{{ form.task_number.name }}">
+    {{form.as_p}}
     <button type="submit" class="btn btn-primary">Отправить</button>
 </form>
 {% endblock %}
