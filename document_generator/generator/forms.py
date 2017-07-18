@@ -28,13 +28,13 @@ class DiaryForm(ModelForm):
         fields = '__all__'
 
 
-class ReportForm(Form):
-    company_name = CharField
-    fio = CharField
-    group = CharField
-    teacher = CharField
-    institute_practice_chief = CharField
-    company_practice_chief = CharField
+# class ReportForm(Form):
+#     company_name = CharField
+#     fio = CharField
+#     group = CharField
+#     teacher = CharField
+#     institute_practice_chief = CharField
+#     company_practice_chief = CharField
 
 
 class PassForm(ModelForm):

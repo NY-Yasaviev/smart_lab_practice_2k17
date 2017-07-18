@@ -9,8 +9,6 @@ class Practice(Model):
     director = CharField(max_length=60, null=True)
     company = CharField(max_length=60, null=True)
     address = CharField(max_length=60, null=True)
-    date_from = DateField
-    date_to = DateField
     EDU = 'Учебная'
     PROD = 'Произведственная'
     DIP = 'Преддипломная'
@@ -53,8 +51,8 @@ class Student(Model):
 
 
 class Diary(Model):
-    student = ForeignKey(Student, on_delete=CASCADE)
-    practice = OneToOneField(Practice, null=True)
+    student = ForeignKey(Student, on_delete=CASCADE, null=True)
+    practice = OneToOneField(Practice, null=True, default=None)
 
 
 class DiaryRecord(Model):
@@ -70,9 +68,9 @@ class Deanery(Model):
 
 
 class Pass(Model):
-    contract_number = IntegerField
-    contract_date = DateField
-    practice = OneToOneField(Practice)
+    contract_number = IntegerField(null=True)
+    contract_date = DateField(null=True)
+    practice = OneToOneField(Practice, null=True)
     necessary_works = CharField(max_length=230, null=True)
     student = ForeignKey(Student, on_delete=CASCADE)
     report = TextField(max_length=2140, null=True)
@@ -88,8 +86,8 @@ class IndividualTaskDoc(Model):
 
 class IndividualTask(Model):
     # student = ForeignKey(Student, on_delete=CASCADE, related_name='студент')
-    dateFrom = DateField(null=True)
-    dateTo = DateField(null=True)
+    dateFrom = DateField(blank=True, null=True)
+    dateTo = DateField(blank=True, null=True)
     desc = CharField(max_length=200, null=True)
     task_number = IntegerField
     doc = ManyToManyField(IndividualTaskDoc)
