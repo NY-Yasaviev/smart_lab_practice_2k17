@@ -1,0 +1,5 @@
+<form action="" method="post" class="deanery-practice-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Отправить</button>
+</form>

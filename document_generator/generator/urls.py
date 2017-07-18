@@ -3,15 +3,15 @@ from . import views
 
 urlpatterns = [
     # Student
-    url(r'^practice_(?P<id>\d+)/diary_view/', views.diary_view, name='diary_view'),
+    # url(r'^practice_(?P<id>\d+)/diary_view/', views.diary_view, name='diary_view'),
     url(r'^practice_(?P<id>\d+)/diary/', views.edit_diary, name='diary'),
-    url(r'^practice_(?P<id>\d+)/report_view/', views.report_view, name='report_view'),
+    # url(r'^practice_(?P<id>\d+)/report_view/', views.report_view, name='report_view'),
     url(r'^practice_(?P<id>\d+)/report/', views.edit_report, name='report'),
-    url(r'^practice_(?P<id>\d+)/individual_view/', views.individual_view, name='individual_view'),
+    # url(r'^practice_(?P<id>\d+)/individual_view/', views.individual_view, name='individual_view'),
     url(r'^practice_(?P<id>\d+)/individual/', views.edit_individual, name='individual'),
-    url(r'^practice_(?P<id>\d+)/pass_view/', views.pass_view, name='pass_view'),
+    # url(r'^practice_(?P<id>\d+)/pass_view/', views.pass_view, name='pass_view'),
     url(r'^practice_(?P<id>\d+)/pass/', views.edit_pass, name='pass'),
-    url(r'^practice_(?P<id>\d+)/', views.practice_docs, name='practice_docs'),
+    # url(r'^practice_(?P<id>\d+)/', views.practice_docs, name='practice_docs'),
     # Deanery
     url(r'^ind_tasks/(?P<id>\d+)/', views.ind_edit, name='new_ind'),
     url(r'^ind_tasks/add/(?P<type>\w+)/', views.new_ind, name='new_ind'),

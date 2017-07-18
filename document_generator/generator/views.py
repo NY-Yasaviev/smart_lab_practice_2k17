@@ -8,18 +8,57 @@ from .forms import *
 from django.contrib.auth import get_user_model
 
 
-def ind_edit(request, id):
-    pass
-
-
 @user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
 def ind_list(request):
-    pass
+    edu = IndividualTask.objects.filter(practice_type=IndividualTask.EDU)
+    prod = IndividualTask.objects.filter(practice_type=IndividualTask.PROD)
+    dip = IndividualTask.objects.filter(practice_type=IndividualTask.DIP)
+    return render(request, 'deanery/ind_tasks.html', locals())
 
 
 @user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
+def ind_edit(request, id):
+    title = "Редактирование индивидуального задания"
+    ind = IndividualTask.object.get(pk=id)
+    if request.POST:
+        form = IndividualTaskForm(request.POST or None, instance=ind)
+        if form.is_valid():
+            form.save()
+            return redirect("/ind_tasks/")
+        else:
+            return render(request, 'deanery/ind_task.html', locals())
+    else:
+        form = IndividualTaskForm(instance=ind)
+        return render(request, 'deanery/ind_task.html', locals())
+
+
+# FIXME problems with validation
+@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
 def new_ind(request, type):
-    pass
+    if request.POST:
+        if type == 'edu':
+            choice = IndividualTask.EDU
+        elif type == 'prod':
+            choice = IndividualTask.PROD
+        elif type == 'dip':
+            choice = IndividualTask.DIP
+        else:
+            return redirect('/ind_tasks/')
+        # form.task_number = IndividualTask.objects.filter(practice_type=choice).count() + 1
+        form = IndividualTaskForm(request.POST, initial={
+            'practice_type': choice,
+        })
+        print(form.errors)
+        if form.is_valid():
+            # task = form.save(commit=False)
+            form.save()
+            return redirect("/ind_tasks/")
+        else:
+            print(form.errors)
+            return render(request, 'deanery/ind_task.html', {'form': form})
+    else:
+        form = IndividualTask()
+        return render(request, 'deanery/ind_task.html', {'form': form})
 
 
 def edit_report(request):
@@ -42,8 +81,6 @@ def new_practice(request):
         if form.is_valid():
             form.save()
             return redirect("/practices/")
-        else:
-            return render(request, 'deanery/addPractice.html', {'form': form})
     else:
         form = PracticeForm()
         return render(request, 'deanery/addPractice.html', {'form': form})
@@ -59,7 +96,7 @@ def edit_practice(request, id):
         form = PracticeForm(request.POST or None, instance=practice)
         if form.is_valid():
             form.save()
-        return redirect("/practices/")
+            return redirect("/practices/%s/" % id)
     else:
         form = PracticeForm(instance=practice)
         return render(request, 'deanery/practice.html', locals())
@@ -72,9 +109,6 @@ def new_student(request):
         form = StudentForm(request.POST or None)
         if form.is_valid():
             student = form.save(commit=False)
-            for practice in student.practice.objects.all():
-                diary = DiaryForm(student=student, practice=practice)
-                diary.save()
             login = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
             password = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
             user = get_user_model().objects.create_user(username=login, password=password)
@@ -85,25 +119,58 @@ def new_student(request):
             student.save()
             form.save_m2m()
             # creating docs
-            pass_doc = Pass.objects.create()
+            diary = DiaryForm(initial={
+                'student': student,
+            })
+            if diary.is_valid():
+                print(diary.is_valid())
+                diary.save()
+            report = ReportDocForm(initial={
+                'student': student,
+            })
+            if report.is_valid():
+                print(report.is_valid())
+                report.save()
+            pass_doc = PassForm(initial={
+                'student': student,
+            })
+            if pass_doc.is_valid():
+                print(pass_doc.is_valid())
+                pass_doc.save()
+            ind_tasks = IndividualTaskDocForm(initial={
+                'student': student,
+            })
+            if ind_tasks.is_valid():
+                print(ind_tasks.is_valid())
+                ind_tasks.save()
             return redirect("/students/")
     else:
         form = StudentForm()
         return render(request, 'deanery/addStudent.html', {'form': form})
 
 
+@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
 def reports(request, id):
-    pass
+    student = Student.objects.get(pk=id)
+    report_list = Report.objects.get(student=student)
+    return render(request, 'deanery/reports.html', locals())
 
 
+@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
 def inds(request, id):
-    pass
+    student = Student.objects.get(pk=id)
+    ind_docs = IndividualTaskDoc.objects.get(student=student)
+    return render(request, 'deanery/ind_tasks.html', locals())
 
 
+@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
 def passes(request, id):
-    pass
+    student = Student.objects.get(pk=id)
+    passes = Pass.objects.get(student=student)
+    return render(request, 'deanery/passes.html', locals())
 
 
+@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
 def student_report(request, id, rep_id):
     student = Student.objects.get(pk=id)
     group = student.group
@@ -113,6 +180,7 @@ def student_report(request, id, rep_id):
     return render(request, 'deanery/report.html', locals())
 
 
+@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
 def student_individual(request, id, ind_id):
     doc = IndividualTaskDoc.objects.get(pk=ind_id)
     records = IndividualTask.objecs.get(doc=doc)
@@ -125,8 +193,19 @@ def student_individual(request, id, ind_id):
     return render(request, 'deanery/individual.html', locals())
 
 
+@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
 def student_pass(request, id, pass_id):
-    pass
+    student = Student.objects.get(pk=id)
+    pass_doc = Pass.objects.get(student=student)
+    practice = pass_doc.practice
+    if request.POST:
+        form = PassForm(request.POST or None, instance=pass_doc)
+        if form.is_valid():
+            form.save()
+            return redirect("students/%s/pass/" % id)
+    else:
+        form = PassForm(instance=pass_doc)
+        return render(request, 'deanery/pass.html', locals())
 
 
 @user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
@@ -159,23 +238,3 @@ def students(request):
     title = "Студенты"
     students_list = Student.objects.all()
     return render(request, 'deanery/students.html', locals())
-
-
-def diary_view(request):
-    return render(request, 'student/diaryView.html', locals())
-
-
-def report_view(request):
-    return render(request, 'student/reportView.html', locals())
-
-
-def individual_view(request):
-    pass
-
-
-def pass_view(request):
-    return render(request, 'student/passView.html', locals())
-
-
-def practice_docs(request):
-    pass
