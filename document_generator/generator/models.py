@@ -40,8 +40,8 @@ class Student(Model):
     informatics = '09.03.03 Прикладная информатика'
     edu_profile = CharField(choices=(
         (engineering, '09.03.04 Программная инженерия'),
-        (informatics, '09.03.03 Прикладная информатика'),
-    ), max_length=50, null=True, default=engineering)  # направление
+        (informatics, '09.03.03 Прикладная информатика')),
+        max_length=50, null=True, default=engineering)  # направление
     contract = BooleanField(default=False)  # наличие договора
     status = CharField(max_length=20, null=True)  # бакалавр и тд.
     report = TextField(max_length=2140, null=True)  # big field 1
@@ -66,8 +66,9 @@ class Diary(Model):
 
 class DiaryRecord(Model):
     description = CharField(max_length=40, null=True)
-    date = DateField
+    date = DateField('Дата', null=True)
     diary = ForeignKey(Diary, on_delete=CASCADE)
+    number = IntegerField
 
 
 class Deanery(Model):

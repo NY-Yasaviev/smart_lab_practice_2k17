@@ -9,53 +9,29 @@ class DateInput(DateInput):
 class PracticeForm(ModelForm):
     class Meta:
         model = Practice
-        fields = '__all__'
+        exclude = ['necessary_works']
         widgets = {
-            "start": DateInput(),
-            "end": DateInput()
+            "Начало": DateInput(),
+            "Окончание": DateInput()
         }
 
 
 class StudentForm(ModelForm):
     class Meta:
         model = Student
-        exclude = ['login', 'password', 'user']
+        exclude = ['login', 'password', 'user', 'report', 'review', 'mark']
 
 
-class DiaryForm(ModelForm):
+class DiaryRecordForm(ModelForm):
     class Meta:
-        model = Diary
-        fields = '__all__'
-
-
-# class ReportForm(Form):
-#     company_name = CharField
-#     fio = CharField
-#     group = CharField
-#     teacher = CharField
-#     institute_practice_chief = CharField
-#     company_practice_chief = CharField
-
-
-class PassForm(ModelForm):
-    class Meta:
-        model = Pass
-        fields = '__all__'
+        model = DiaryRecord
+        exclude = ['diary']
+        widgets = {
+            'Дата': DateInput()
+        }
 
 
 class IndividualTaskForm(ModelForm):
     class Meta:
         model = IndividualTask
-        exclude = ['task_number', 'doc', 'type']
-
-
-class IndividualTaskDocForm(Form):
-    class Meta:
-        model = IndividualTaskDoc
-        fields = []
-
-
-class ReportDocForm(ModelForm):
-    class Meta:
-        model = Report
-        fields = []
+        exclude = ['dateFrom', 'dateTo']

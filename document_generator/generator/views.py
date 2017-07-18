@@ -32,33 +32,32 @@ def ind_edit(request, id):
         return render(request, 'deanery/ind_task.html', locals())
 
 
-# FIXME problems with validation
 @user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
 def new_ind(request, type):
-    if request.POST:
-        if type == 'edu':
-            choice = IndividualTask.EDU
-        elif type == 'prod':
-            choice = IndividualTask.PROD
-        elif type == 'dip':
-            choice = IndividualTask.DIP
-        else:
-            return redirect('/ind_tasks/')
-        # form.task_number = IndividualTask.objects.filter(practice_type=choice).count() + 1
-        form = IndividualTaskForm(request.POST, initial={
-            'practice_type': choice,
-        })
-        print(form.errors)
-        if form.is_valid():
-            # task = form.save(commit=False)
-            form.save()
-            return redirect("/ind_tasks/")
-        else:
-            print(form.errors)
-            return render(request, 'deanery/ind_task.html', {'form': form})
+    if type == 'edu':
+        choice = IndividualTask.EDU
+    elif type == 'prod':
+        choice = IndividualTask.PROD
+    elif type == 'dip':
+        choice = IndividualTask.DIP
     else:
-        form = IndividualTask()
-        return render(request, 'deanery/ind_task.html', {'form': form})
+        return redirect('/ind_tasks/')
+    if request.POST:
+        number = IndividualTask.objects.filter(practice_type=choice).count() + 1
+        form = IndividualTaskForm(request.POST or None, initial={
+            'practice_type':choice,
+            'task_number':number
+        })
+        if form.is_valid():
+            form.save()
+            return redirect('/ind_tasks/')
+        else:
+            return render(request, 'deanery/addIndTask.html', {'form': form})
+    else:
+        form = IndividualTaskForm(initial={
+            'practice_type':choice
+        })
+        return render(request, 'deanery/addIndTask.html', {'form': form})
 
 
 def edit_report(request):
@@ -117,32 +116,11 @@ def new_student(request):
             student.password = password
             student.user = user
             student.save()
-            form.save_m2m()
             # creating docs
-            diary = DiaryForm(initial={
-                'student': student,
-            })
-            if diary.is_valid():
-                print(diary.is_valid())
-                diary.save()
-            report = ReportDocForm(initial={
-                'student': student,
-            })
-            if report.is_valid():
-                print(report.is_valid())
-                report.save()
-            pass_doc = PassForm(initial={
-                'student': student,
-            })
-            if pass_doc.is_valid():
-                print(pass_doc.is_valid())
-                pass_doc.save()
-            ind_tasks = IndividualTaskDocForm(initial={
-                'student': student,
-            })
-            if ind_tasks.is_valid():
-                print(ind_tasks.is_valid())
+            for practice in form.cleaned_data['practice']:
+                ind_tasks = IndividualTaskDocForm(student=student, practice=practice)
                 ind_tasks.save()
+            form.save_m2m()
             return redirect("/students/")
     else:
         form = StudentForm()

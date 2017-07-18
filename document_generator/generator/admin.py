@@ -3,3 +3,4 @@ from .models import *
 
 admin.site.register(Practice)
 admin.site.register(Student)
+admin.site.register(IndividualTask)
