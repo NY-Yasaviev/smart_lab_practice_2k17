@@ -6,7 +6,7 @@ from .models import *
 from .forms import *
 from .custom_decorators import is_deanery, is_student
 from django.contrib.auth import get_user_model
-
+from docxtpl import DocxTemplate
 
 
 @is_deanery
@@ -130,7 +130,6 @@ def new_student(request):
         return render(request, 'deanery/addStudent.html', {'form': form})
 
 
-
 @is_deanery
 def edit_student(request, id):
     title = "Редактирование студента"
@@ -145,7 +144,6 @@ def edit_student(request, id):
         return render(request, 'deanery/student.html', {'form': form}, locals())
 
 
-
 @is_deanery
 def practices(request):
     title = "Практики"
@@ -153,10 +151,9 @@ def practices(request):
     return render(request, 'deanery/practices.html', locals())
 
 
-
 @is_student
 def profile(request):
-    title="Редактирование профиля"
+    title = "Редактирование профиля"
     student = Student.objects.get(user=request.user)
     if request.POST:
         form = StudentForm(request.POST or None, instance=student)
@@ -247,3 +244,103 @@ def edit_record(request, id, record_id):
     else:
         form = DiaryRecordForm(instance=record)
         return render(request, 'student/record.html', locals())
+
+
+@is_student
+def diary_download(request, id):
+    from docx import Document
+    from docx.shared import Pt, Inches
+    from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+    diary = Document()
+    font = diary.styles['Normal'].font
+    font.name = 'Times New Roman'
+    font.size = Pt(14)
+    header = diary.add_paragraph(
+        'Дневник студента-практиканта\nХод выполнения практики\n').paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    table = diary.add_table(rows=1, cols=4)
+    table.style = 'Table Grid'
+    # Создание и заполнение шапки
+    hat = table.rows[0]
+    hat.cells[0].add_paragraph('№').paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    hat.cells[1].add_paragraph('Описание выполненной работы').paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    hat.cells[2].add_paragraph('Дата').paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    hat.cells[3].add_paragraph('Отметка\nруководителя').paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    # data
+    practice = Practice.objects.get(pk=id)
+    diary = Diary.objects.get(practice=practice)
+    records = DiaryRecord.objecst.filter(diary=diary)
+
+    # Заполнение таблицы
+    for i in range(10):
+        nextRow = table.add_row()
+        nextRow.cells[0].add_paragraph(str(i + 1)).paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+        nextRow.cells[1].add_paragraph('some_text').paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+        nextRow.cells[2].add_paragraph('some_date').paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+        nextRow.cells[3].add_paragraph('some_mark').paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    # Форматирование ширины таблицы
+    table.autofit = False
+    for cell in table.columns[0].cells:
+        cell.width = Inches(0.35)
+    for cell in table.columns[1].cells:
+        cell.width = Inches(3)
+    for cell in table.columns[2].cells:
+        cell.width = Inches(1.65)
+    for cell in table.columns[3].cells:
+        cell.width = Inches(1.65)
+
+    diary.save('prepairDocx/Заполненный дневник.docx')
+
+
+@is_student
+def report_view(request, id):
+    pass
+
+
+@is_student
+def report_download(request, id):
+    pass
+
+
+@is_student
+def individual_view(request, id):
+    pass
+
+
+@is_student
+def individual_download(request, id):
+    pass
+
+
+@is_student
+def pass_download(request, id):
+    # preparation
+    s = Student.objecst.get(user=request.user)
+    p = Practice.objecst.get(pk=id)
+    # do IT
+    doc = DocxTemplate("templates/permit.docx")
+    changeTag = {'studCours': s.course,
+                 'studGroup': s.group,
+                 'departName': "Высшая школа ИТИС КФУ",
+                 'contNumber': "",
+                 'contDate': "",
+                 'entityName': p.company,
+                 'entityAdress': p.address,
+                 'practType': p.type,
+                 'practDateT1': p.date_from,
+                 'practDateF1': p.date_to,
+                 'practDateT2': "",
+                 'practDateF2': "",
+                 'practDateT3': "",
+                 'practDateF3': "",
+                 'corollary': s.review,
+                 'mark': s.mark,
+                 'spec': s.edu_profile,
+                 'profil': "",
+                 'skill': s.status,
+                 'needActivType': p.necessary_works,
+                 'showUp': p.date_from,
+                 'tutor': p.chief,
+                 'adminReview': s.report,
+                 'departure': p.date_to}
+    doc.render(changeTag)
+    doc.save("prepairDocx/Заполненная путевка.docx")
