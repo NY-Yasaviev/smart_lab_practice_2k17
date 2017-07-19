@@ -77,7 +77,6 @@ class Deanery(Model):
     user = OneToOneField(User, on_delete=CASCADE)
 
 
-
 class IndividualTask(Model):
     dateFrom = DateField(blank=True, null=True)
     dateTo = DateField(blank=True, null=True)
@@ -93,4 +92,3 @@ class IndividualTask(Model):
     practice_type = CharField(max_length=20,
                               choices=CHOICES,
                               default=EDU)
-
