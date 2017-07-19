@@ -20,8 +20,10 @@ def login(request):
             if request.user.groups.get().name == "Students":
                 title = "Главная"
                 student = Student.objects.get(user=request.user)
-                practices = Practice.objects.filter(student=student)
-                return render(request, 'student/index.html', locals())
+                form = StudentForm(request.POST or None, instance=student)
+                if form.is_valid():
+                    form.save()
+                return redirect("/")
             elif request.user.groups.get().name == "Deanery":
                 title = "Главная"
                 practices = Practice.objects.all()[:5]
@@ -41,6 +43,7 @@ def login(request):
             if request.user.groups.get().name == "Students":
                 title = "Главная"
                 student = Student.objects.get(user=request.user)
+                form = StudentForm(instance=student)
                 practices = Practice.objects.filter(student=student)
                 return render(request, 'student/index.html', locals())
             elif request.user.groups.get().name == "Deanery":

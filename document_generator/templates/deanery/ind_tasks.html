@@ -3,22 +3,29 @@
 {%  block body %}
 <h1>Индивидуальные задания</h1>
 
-<p>Учебная практика</p>
-<a href="/ind_tasks/add/edu/">Добавить задание</a>
-{% for task in edu_tasks %}
-<a href="/ind_tasks/{{task.id}}/">{{ task.desc }}</a>
+
+<p>Учебная практика <a href="/ind_tasks/add/edu/">Добавить задание</a>
+</p>
+<p>
+    {% for task in edu %}
+    <a href="/ind_tasks/{{task.id}}/">{{ task.desc }}</a>
+</p>
 {% endfor %}
 
-<p>Производственная практика</p>
-<a href="/ind_tasks/add/prod/">Добавить задание</a>
-{% for task in prod_tasks %}
-<a href="/ind_tasks/{{task.id}}/">{{ task.desc }}</a>
+<p>Производственная практика <a href="/ind_tasks/add/prod/">Добавить задание</a></p>
+
+<p>
+    {% for task in prod %}
+    <a href="/ind_tasks/{{task.id}}/">{{ task.desc }}</a>
+</p>
 {% endfor %}
 
-<p>Преддипломная практика</p>
-<a href="/ind_tasks/add/dip/">Добавить задание</a>
-{% for task in dip_tasks %}
-<a href="/ind_tasks/{{task.id}}/">{{ task.desc }}</a>
+<p>Преддипломная практика <a href="/ind_tasks/add/dip/">Добавить задание</a>
+</p>
+<p>
+    {% for task in dip %}
+    <a href="/ind_tasks/{{task.id}}/">{{ task.desc }}</a>
+</p>
 {% endfor %}
 
 {% endblock %}

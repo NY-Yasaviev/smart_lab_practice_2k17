@@ -1,23 +1,10 @@
 {% extends 'main.html' %}
+
+
 {% block body %}
-    <table class="table table-bordered table-striped">
-        <thead>
-        <tr>
-            <th>Практика</th>
-            <th>Дата начала</th>
-            <th>Дата конца</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for practice in practices %}
-            <tr>
-                <td><a href="/practice_{{ practice.id }}/">{{practice.name }}</a></td>
-                <td>{{ practice.date_from }}</td>
-                <td>{{ practice.date_to }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <a href="/profile/">Редактировать профиль</a>
-    <a href="/logout/">Выйти</a>
+<a href="/profile/">Редактировать профиль</a>
+<h2>Доступные практики</h2>
+{% for practice in practices %}
+<a href="/practice_{{practice.id}}/">{{practice.name}}</a>
+{% endfor %}
 {% endblock %}
