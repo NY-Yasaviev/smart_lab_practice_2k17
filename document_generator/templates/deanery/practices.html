@@ -1,12 +1,17 @@
 {% extends 'main.html' %}
 {% block body %}
+    {% include 'menuForDeanery.html' %}
     <table class="table table-bordered table-striped">
         <thead>
         <tr>
             <th>Название</th>
             <th>Преподаватель</th>
-            <th>Руководитель компании</th>
-            <th>Тип практики, фирма, адрес</th>
+            <th>Руководитель практики от предприятия</th>
+            <th>Компания</th>
+            <th>Адрес</th>
+            <th>Тип практики</th>
+            <th>Дата начала</th>
+            <th>Дата окончания</th>
         </tr>
         </thead>
         <tbody>
@@ -15,9 +20,14 @@
                 <td><a href="/practices/{{ practice.id }}/">{{ practice.name }}</a></td>
                 <td>{{ practice.teacher }}</td>
                 <td>{{ practice.director }}</td>
+                <td>{{ practice.company }}</td>
+                <td>{{ practice.address }}</td>
                 <td>{{ practice.type }}</td>
+                <td>{{ practice.date_from }}</td>
+                <td>{{ practice.date_to }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    <a href="/practices/new/"><button type="button" class="btn btn-primary">Добавить практику</button></a>
 {% endblock %}

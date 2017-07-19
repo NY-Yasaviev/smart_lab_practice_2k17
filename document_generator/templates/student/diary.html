@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+{% block body %}
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>№</th>
+            <th>Описание выполненной работы</th>
+            <th>Дата</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in diary_records %}
+            <tr>
+                <td><a>{{ record.number }}</a></td>
+                <td><a href="/practice_{{ practice.id }}/diary/{{ record.number }}">{{record.description }}</a></td>
+                <td>{{ record.date }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="/practice_{{ practice.id }}/diary/new">Добавить запись в дневник</a>
+{% endblock %}
