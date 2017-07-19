@@ -1,9 +1,0 @@
-{%  extends 'main.html' %}
-
-{% block body %}
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Отправить</button>
-</form>
-{%  endblock %}

@@ -77,7 +77,6 @@ class Deanery(Model):
     user = OneToOneField(User, on_delete=CASCADE)
 
 
-
 class IndividualTask(Model):
     dateFrom = DateField(blank=True, null=True)
     dateTo = DateField(blank=True, null=True)
@@ -95,3 +94,5 @@ class IndividualTask(Model):
                               choices=CHOICES,
                               default=EDU)
 
+    def __str__(self):
+        return "%s - %s" % (self.desc, self.practice_type)
