@@ -82,6 +82,7 @@ class IndividualTask(Model):
     dateTo = DateField(blank=True, null=True)
     desc = CharField(max_length=200, null=True)
     task_number = IntegerField
+    student = ManyToManyField(Student)
     EDU = 'Учебная'
     PROD = 'Произведственная'
     DIP = 'Преддипломная'
@@ -92,3 +93,6 @@ class IndividualTask(Model):
     practice_type = CharField(max_length=20,
                               choices=CHOICES,
                               default=EDU)
+
+    def __str__(self):
+        return "%s - %s" % (self.desc, self.practice_type)

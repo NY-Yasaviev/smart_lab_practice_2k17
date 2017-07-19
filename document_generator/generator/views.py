@@ -119,6 +119,9 @@ def new_student(request):
             student.save()
             form.save_m2m()
             # creating docs
+            for practice in student.practice.all():
+                student_diary = Diary(student=student,practice=practice)
+                student_diary.save()
             return redirect("/students/")
         else:
             return render(request, 'deanery/addStudent.html', {'form': form})
@@ -197,17 +200,20 @@ def pass_view(request, id):
 @is_student
 def new_diary_record(request, id):
     practice = Practice.objects.get(pk=id)
-    d = Diary.objects.get(practice=practice)
+    student = Student.objects.get(user=request.user)
+    d = Diary.objects.filter(student=student).get(practice=practice)
     if request.POST:
-        form = DiaryRecordForm(request, initial={'diary': d})
+        form = DiaryRecordForm(request.POST or None)
         if form.is_valid():
-            form.save()
+            record =  form.save(commit=False)
+            record.diary = d
+            record.save()
             return redirect('/practice_%s/diary/' % id)
         else:
-            return render(request, 'student/addDiaryRecord.html', {'form': form})
+            return render(request, 'student/addRecord.html', {'form': form})
     else:
         form = DiaryRecordForm()
-        return render(request, 'student/addDiaryRecord.html', {'form': form})
+        return render(request, 'student/addRecord.html', {'form': form})
 
 
 @is_student
@@ -232,7 +238,7 @@ def edit_record(request, id, record_id):
         form = DiaryRecordForm(request.POST or None, instance=record)
         if form.is_valid():
             form.save()
-            return redirect('/practice_%s/diary' % id)
+            return redirect('/practice_%s/diary/' % id)
         else:
             return render(request, 'student/record.html', {'form': form})
     else:

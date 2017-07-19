@@ -1,9 +1,10 @@
-
-{%  extends 'main.html' %}
+{% extends 'main.html' %}
 
 {% block body %}
-{# на этой странице типа таблица с записями, пока тупо сделаю список #}
-{% for record in records %}
-<p><a href="/diary/practice_{{ practice.id }}/diary/record_{{ record.id }}/">record.description</a></p>
-{% endfor %}
-{%  endblock %}
+    {% include 'menuForStudent.html' %}
+    {# на этой странице типа таблица с записями, пока тупо сделаю список #}
+    {% for record in records %}
+        <a href="/practice_{{ practice.id }}/diary/record_{{ record.id }}/">{{ record.description }}</a>
+    {% endfor %}
+    <a href="/practice_{{ practice.id }}/diary/new/">Добавить запись в дневник</a>
+{% endblock %}
