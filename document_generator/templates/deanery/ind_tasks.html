@@ -1,31 +1,47 @@
 {% extends 'main.html' %}
 
-{%  block body %}
-<h1>Индивидуальные задания</h1>
-
-
-<p>Учебная практика <a href="/ind_tasks/add/edu/">Добавить задание</a>
-</p>
-<p>
-    {% for task in edu %}
-    <a href="/ind_tasks/{{task.id}}/">{{ task.desc }}</a>
-</p>
-{% endfor %}
-
-<p>Производственная практика <a href="/ind_tasks/add/prod/">Добавить задание</a></p>
-
-<p>
-    {% for task in prod %}
-    <a href="/ind_tasks/{{task.id}}/">{{ task.desc }}</a>
-</p>
-{% endfor %}
-
-<p>Преддипломная практика <a href="/ind_tasks/add/dip/">Добавить задание</a>
-</p>
-<p>
-    {% for task in dip %}
-    <a href="/ind_tasks/{{task.id}}/">{{ task.desc }}</a>
-</p>
-{% endfor %}
+{% block body %}
+    {% include 'menuForDeanery.html' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="deanery-main">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a class="deanery-main-practice-header1 deacthref">Учебная практика:</a>
+                            <a class="deanery-main-practice-header2" href="/ind_tasks/add/edu/">Добавить задание</a>
+                        </div>
+                        <div class="panel-body">
+                            {% for task in edu %}
+                                <a href="/ind_tasks/{{ task.id }}/">{{ task.desc }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a class="deanery-main-practice-header1 deacthref">Производственная практика:</a>
+                            <a class="deanery-main-practice-header2" href="/ind_tasks/add/prod/">Добавить задание</a>
+                        </div>
+                        <div class="panel-body">
+                            {% for task in prod %}
+                                <a href="/ind_tasks/{{ task.id }}/">{{ task.desc }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a class="deanery-main-practice-header1 deacthref">Преддипломная практика:</a>
+                            <a class="deanery-main-practice-header2" href="/ind_tasks/add/dip/">Добавить задание</a>
+                        </div>
+                        <div class="panel-body">
+                            {% for task in dip %}
+                                <a href="/ind_tasks/{{ task.id }}/">{{ task.desc }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

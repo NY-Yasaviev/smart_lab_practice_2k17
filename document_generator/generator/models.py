@@ -83,6 +83,7 @@ class IndividualTask(Model):
     dateTo = DateField(blank=True, null=True)
     desc = CharField(max_length=200, null=True)
     task_number = IntegerField
+    student = ManyToManyField(Student)
     EDU = 'Учебная'
     PROD = 'Произведственная'
     DIP = 'Преддипломная'
