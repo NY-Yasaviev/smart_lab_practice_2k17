@@ -1,0 +1,8 @@
+{%  extends 'main.html' %}
+
+{% block body %}
+{# на этой странице типа таблица с записями, пока тупо сделаю список #}
+{% for record in records %}
+<p><a href="/diary/practice_{{ practice.id }}/diary/record_{{ record.id }}/">record.description</a></p>
+{% endfor %}
+{%  endblock %}

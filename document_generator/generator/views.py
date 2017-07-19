@@ -1,14 +1,14 @@
 import random
 import string
 
-from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render_to_response, render, redirect
 from .models import *
 from .forms import *
+from .custom_decorators import is_deanery, is_student
 from django.contrib.auth import get_user_model
 
 
-@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
+@is_deanery
 def ind_list(request):
     edu = IndividualTask.objects.filter(practice_type=IndividualTask.EDU)
     prod = IndividualTask.objects.filter(practice_type=IndividualTask.PROD)
@@ -16,7 +16,7 @@ def ind_list(request):
     return render(request, 'deanery/ind_tasks.html', locals())
 
 
-@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
+@is_deanery
 def ind_edit(request, id):
     title = "Редактирование индивидуального задания"
     ind = IndividualTask.objects.get(pk=id)
@@ -32,7 +32,7 @@ def ind_edit(request, id):
         return render(request, 'deanery/ind_task.html', locals())
 
 
-@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
+@is_deanery
 def new_ind(request, type):
     if type == 'edu':
         choice = IndividualTask.EDU
@@ -60,19 +60,7 @@ def new_ind(request, type):
         return render(request, 'deanery/addIndTask.html', {'form': form})
 
 
-def edit_report(request):
-    pass
-
-
-def edit_pass(request):
-    pass
-
-
-def edit_individual(request):
-    pass
-
-
-@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
+@is_deanery
 def new_practice(request):
     title = "Добавление практики"
     if request.POST:
@@ -87,7 +75,7 @@ def new_practice(request):
         return render(request, 'deanery/addPractice.html', {'form': form})
 
 
-@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
+@is_deanery
 def edit_practice(request, id):
     title = "Редактирование практики"
     practice = Practice.objects.get(pk=id)
@@ -105,7 +93,14 @@ def edit_practice(request, id):
         return render(request, 'deanery/practice.html', locals())
 
 
-@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
+@is_deanery
+def students(request):
+    title = "Студенты"
+    students_list = Student.objects.all()
+    return render(request, 'deanery/students.html', locals())
+
+
+@is_deanery
 def new_student(request):
     title = "Добавление студента"
     if request.POST:
@@ -129,66 +124,7 @@ def new_student(request):
         return render(request, 'deanery/addStudent.html', {'form': form})
 
 
-@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
-def reports(request, id):
-    student = Student.objects.get(pk=id)
-    report_list = Report.objects.get(student=student)
-    return render(request, 'deanery/reports.html', locals())
-
-
-@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
-def inds(request, id):
-    student = Student.objects.get(pk=id)
-    ind_docs = IndividualTaskDoc.objects.get(student=student)
-    return render(request, 'deanery/ind_tasks.html', locals())
-
-
-@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
-def passes(request, id):
-    student = Student.objects.get(pk=id)
-    passes = Pass.objects.get(student=student)
-    return render(request, 'deanery/passes.html', locals())
-
-
-@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
-def student_report(request, id, rep_id):
-    student = Student.objects.get(pk=id)
-    group = student.group
-    fio = student.name
-    practice = Report.objects.get(pk=rep_id).practice
-    teacher, director = practice.teacher, practice.director
-    return render(request, 'deanery/report.html', locals())
-
-
-@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
-def student_individual(request, id, ind_id):
-    doc = IndividualTaskDoc.objects.get(pk=ind_id)
-    records = IndividualTask.objecs.get(doc=doc)
-    practice = doc.practice
-    student = doc.student
-    fio = student.name
-    edu_profile = student.edu_profile
-    place_of_practice, date_from, date_to, director = \
-        practice.company, practice.date_from, practice.date_to, practice.director
-    return render(request, 'deanery/individual.html', locals())
-
-
-@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
-def student_pass(request, id, pass_id):
-    student = Student.objects.get(pk=id)
-    pass_doc = Pass.objects.get(student=student)
-    practice = pass_doc.practice
-    if request.POST:
-        form = PassForm(request.POST or None, instance=pass_doc)
-        if form.is_valid():
-            form.save()
-            return redirect("students/%s/pass/" % id)
-    else:
-        form = PassForm(instance=pass_doc)
-        return render(request, 'deanery/pass.html', locals())
-
-
-@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
+@is_deanery
 def edit_student(request, id):
     title = "Редактирование студента"
     student = Student.objects.get(pk=id)
@@ -202,19 +138,99 @@ def edit_student(request, id):
         return render(request, 'deanery/student.html', {'form': form}, locals())
 
 
-@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
+@is_deanery
 def practices(request):
     title = "Практики"
     practices_list = Practice.objects.all()
     return render(request, 'deanery/practices.html', locals())
 
 
+@is_student
+def profile(request):
+    student = Student.objects.get(user=request.user)
+    if request.POST:
+        form = StudentForm(request.POST or None, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect("/")
+        else:
+            return render(request, 'student/profile.html', locals())
+    else:
+        form = StudentForm(instance=student)
+        return render(request, 'student/profile.html', locals())
+
+
+@is_student
+def practice_docs(request, id):
+    return render(request, 'student/docs.html', locals())
+
+
+# TODO FINISH THAT
+@is_student
+def edit_individual(request, id):
+    practice = Practice.objects.filter(pk=id)
+    tasks = IndividualTask.objects.filter(practice_type=practice.practice_type)
+    if request.POST:
+        pass
+    pass
+
+
+@is_student
 def edit_diary(request):
     pass
 
 
-@user_passes_test(lambda u: Group.objects.get(name='Deanery') in u.groups.all())
-def students(request):
-    title = "Студенты"
-    students_list = Student.objects.all()
-    return render(request, 'deanery/students.html', locals())
+@is_student
+def edit_pass(request, id):
+    pass
+
+
+@is_student
+def pass_view(request, id):
+    pass
+
+
+@is_student
+def new_diary_record(request, id):
+    practice = Practice.objects.get(pk=id)
+    d = Diary.objects.get(practice=practice)
+    if request.POST:
+        form = DiaryRecordForm(request, initial={'diary': d})
+        if form.is_valid():
+            form.save()
+            return redirect('/practice_%s/diary/' % id)
+        else:
+            return render(request, 'student/addDiaryRecord.html', {'form': form})
+    else:
+        form = DiaryRecordForm()
+        return render(request, 'student/addDiaryRecord.html', {'form': form})
+
+
+@is_student
+def diary_view(request, id):
+    pass
+
+
+@is_student
+def diary(request, id):
+    practice = Practice.objects.get(pk=id)
+    diary = Diary.objects.get(practice=practice)
+    records = DiaryRecord.objects.filter(diary=diary).order_by('date')
+    return render(request, 'student/diary.html', locals())
+
+
+@is_student
+def edit_record(request, id, record_id):
+    practice = Practice.objects.get(pk=id)
+    diary = Diary.objects.get(practice=practice)
+    record = DiaryRecord.objects.get(pk=record_id)
+    if request.POST:
+        form = DiaryRecordForm(request.POST or None, instance=record)
+        if form.is_valid():
+            form.save()
+            return redirect('/practice_%s/diary' % id)
+        else:
+            return render(request, 'student/record.html', {'form': form})
+    else:
+        form = DiaryRecordForm(instance=record)
+        return render(request, 'student/record.html', locals())
