@@ -4,9 +4,6 @@ html{
 body{
     background-color: #d6d6d6;
 }
-p{
-    margin-bottom: 0;
-}
 .login-form h1{
     text-align: center;
 }
@@ -24,13 +21,13 @@ p{
     margin-top: -150px;
 }
 .deanery-main-practice-header1{
-    font-size: 20px;
+    font-size: 18px;
     color: black;
     padding: 5px;
     text-align: left;
 }
 .deanery-main-practice-header2{
-    font-size: 18px;
+    font-size: 16px;
     color: black;
     float: right;
     line-height: 30px;
@@ -90,4 +87,13 @@ p{
 .practice-students{
     height: 500px;
     overflow-y: scroll;
+}
+.deacthref{
+    text-decoration: none;
+    cursor: text;
+}
+.deacthref:hover{
+    text-decoration: none;
+    cursor: text;
+    color: black;
 }
