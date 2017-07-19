@@ -6,7 +6,7 @@ from .models import *
 from .forms import *
 from .custom_decorators import is_deanery, is_student
 from django.contrib.auth import get_user_model
-
+from docxtpl import DocxTemplate
 
 
 @is_deanery
@@ -150,7 +150,7 @@ def practices(request):
 
 @is_student
 def profile(request):
-    title="Редактирование профиля"
+    title = "Редактирование профиля"
     student = Student.objects.get(user=request.user)
     if request.POST:
         form = StudentForm(request.POST or None, instance=student)
@@ -264,7 +264,6 @@ def diary_download(request, id):
     diary = Diary.objects.get(practice=practice)
     records = DiaryRecord.objecst.filter(diary=diary)
 
-
     # Заполнение таблицы
     for i in range(10):
         nextRow = table.add_row()
@@ -308,4 +307,34 @@ def individual_download(request, id):
 
 @is_student
 def pass_download(request, id):
-    pass
+    # preparation
+    s = Student.objecst.get(user=request.user)
+    p = Practice.objecst.get(pk=id)
+    # do IT
+    doc = DocxTemplate("templates/permit.docx")
+    changeTag = {'studCours': s.course,
+                 'studGroup': s.group,
+                 'departName': "Высшая школа ИТИС КФУ",
+                 'contNumber': "",
+                 'contDate': "",
+                 'entityName': p.company,
+                 'entityAdress': p.address,
+                 'practType': p.type,
+                 'practDateT1': p.date_from,
+                 'practDateF1': p.date_to,
+                 'practDateT2': "",
+                 'practDateF2': "",
+                 'practDateT3': "",
+                 'practDateF3': "",
+                 'corollary': s.review,
+                 'mark': s.mark,
+                 'spec': s.edu_profile,
+                 'profil': "",
+                 'skill': s.status,
+                 'needActivType': p.necessary_works,
+                 'showUp': p.date_from,
+                 'tutor': p.chief,
+                 'adminReview': s.report,
+                 'departure': p.date_to}
+    doc.render(changeTag)
+    doc.save("prepairDocx/Заполненная путевка.docx")
