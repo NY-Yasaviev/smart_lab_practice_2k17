@@ -11,6 +11,7 @@ from django.contrib.auth import get_user_model
 
 @is_deanery
 def ind_list(request):
+    title = "Индивидуальные задания"
     edu = IndividualTask.objects.filter(practice_type=IndividualTask.EDU)
     prod = IndividualTask.objects.filter(practice_type=IndividualTask.PROD)
     dip = IndividualTask.objects.filter(practice_type=IndividualTask.DIP)
