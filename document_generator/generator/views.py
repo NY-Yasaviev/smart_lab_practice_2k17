@@ -153,6 +153,7 @@ def practices(request):
 
 @is_student
 def profile(request):
+    title="Редактирование профиля"
     student = Student.objects.get(user=request.user)
     if request.POST:
         form = StudentForm(request.POST or None, instance=student)

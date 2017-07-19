@@ -2,9 +2,23 @@
 
 
 {% block body %}
-<a href="/profile/">Редактировать профиль</a>
-<h2>Доступные практики</h2>
-{% for practice in practices %}
-<a href="/practice_{{practice.id}}/">{{practice.name}}</a>
-{% endfor %}
+    {% include 'menuForStudent.html' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="deanery-main">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <p class="deanery-main-practice-header1" href="/practices/">Доступные практики:</p>
+                        </div>
+                        <div class="panel-body">
+                            {% for practice in practices %}
+                                <a href="/practice_{{ practice.id }}/">{{ practice.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
