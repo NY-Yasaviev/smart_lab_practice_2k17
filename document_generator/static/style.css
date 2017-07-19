@@ -4,6 +4,9 @@ html{
 body{
     background-color: #d6d6d6;
 }
+p{
+    margin-bottom: 0;
+}
 .login-form h1{
     text-align: center;
 }
