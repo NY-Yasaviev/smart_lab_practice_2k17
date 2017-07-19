@@ -8,6 +8,7 @@ from .custom_decorators import is_deanery, is_student
 from django.contrib.auth import get_user_model
 
 
+
 @is_deanery
 def ind_list(request):
     edu = IndividualTask.objects.filter(practice_type=IndividualTask.EDU)
@@ -116,12 +117,15 @@ def new_student(request):
             student.user = user
             student.save()
             form.save_m2m()
+            # creating docs
+            pass_doc = Pass.objects.create()
             return redirect("/students/")
         else:
             return render(request, 'deanery/addStudent.html', {'form': form})
     else:
         form = StudentForm()
         return render(request, 'deanery/addStudent.html', {'form': form})
+
 
 
 @is_deanery
@@ -138,11 +142,13 @@ def edit_student(request, id):
         return render(request, 'deanery/student.html', {'form': form}, locals())
 
 
+
 @is_deanery
 def practices(request):
     title = "Практики"
     practices_list = Practice.objects.all()
     return render(request, 'deanery/practices.html', locals())
+
 
 
 @is_student

@@ -45,7 +45,6 @@ def login(request):
                 student = Student.objects.get(user=request.user)
                 form = StudentForm(instance=student)
                 practices = Practice.objects.filter(student=student)
-                print('hello')
                 return render(request, 'student/index.html', locals())
             elif request.user.groups.get().name == "Deanery":
                 title = "Главная"
