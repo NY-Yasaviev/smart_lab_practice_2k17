@@ -193,7 +193,10 @@ def new_diary_record(request, id):
 
 @is_student
 def diary_view(request, id):
-    pass
+    practice = Practice.objects.get(pk=id)
+    diary = Diary.objects.get(practice=practice)
+    records = DiaryRecord.objects.filter(diary=diary).order_by('date')
+    return render(request,'student/diaryView.html',locals())
 
 
 @is_student

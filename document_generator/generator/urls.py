@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     # Student
-    url(r'^practice_(?P<id>\d+)/diary_view/', views.diary_view, name='diary_view'),
+    url(r'^practice_(?P<id>\d+)/diary/view/', views.diary_view, name='diary_view'),
     url(r'^practice_(?P<id>\d+)/diary/new/', views.new_diary_record, name='new_diary_record'),
     url(r'^practice_(?P<id>\d+)/diary/record_(?P<record_id>\d+)/', views.edit_record, name='edit_record'),
     url(r'^practice_(?P<id>\d+)/diary/d/', views.diary_download, name='diary_download'),
