@@ -281,12 +281,9 @@ def diary_save(requset, id):
 
 # TODO FINISH THAT
 @is_student
-def edit_individual(request, id):
-    practice = Practice.objects.filter(pk=id)
-    tasks = IndividualTask.objects.filter(practice_type=practice.practice_type)
-    if request.POST:
-        pass
-    pass
+def individual(request, id):
+    practice = Practice.objects.get(pk=id)
+    return render(request, 'student/individual.html', locals())
 
 
 @is_student
@@ -316,10 +313,10 @@ def report_download(request, id):
 
 
 def report_save(request, id):
-    s = Student.objecst.get(user=request.user)
+    s = Student.objects.get(user=request.user)
     p = Practice.objects.get(pk=id)
 
-    report = DocxTemplate("templates/report.docx")
+    report = DocxTemplate("docGenerator/templates/report.docx")
 
     to_render = {'typePractice': "",
                  'orgName': p.company,
@@ -341,7 +338,7 @@ def report_save(request, id):
 
 @is_student
 def individual_view(request, id):
-    pass
+    return render(request, 'student/indView1.html')
 
 
 @is_student
