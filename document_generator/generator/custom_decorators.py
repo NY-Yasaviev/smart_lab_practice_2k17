@@ -13,9 +13,7 @@ def deanery_auth(user):
 def student_auth(user):
     if user:
         if user.is_authenticated():
-            print('student')
             return Group.objects.get(user=user) in user.groups.all()
-    print('not student')
     return False
 
 
