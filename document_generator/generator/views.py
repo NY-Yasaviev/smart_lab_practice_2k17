@@ -285,44 +285,20 @@ def individual(request, id):
     return render(request, 'student/individual.html', locals())
 
 
-# TODO FINISH THAT
 
 @is_student
 def edit_pass(request, id):
     practice = Practice.objects.get(pk=id)
-    student = Student.objects.get(user=request.user)
-    if request.POST:
-        form = PassForm(request.POST or None, initial={
-            'necessary_works': practice.necessary_works,
-            'report': student.report,
-            'review': student.review,
-            'mark': student.mark
-        })
-        if form.is_valid():
-            practice.necessary_works = form.cleaned_data['necessary_works']
-            student.report = form.cleaned_data['report']
-            student.review = form.cleaned_data['review']
-            student.mark = form.cleaned_data['mark']
-            return redirect("/practice_%s/pass/" % id)
-        else:
-            return render(request, 'student/pass.html')
-    else:
-        form = PassForm(initial={
-            'necessary_works': practice.necessary_works,
-            'report': student.report,
-            'review': student.review,
-            'mark': student.mark
-        })
-        return render(request, 'student/pass.html', locals())
+    return render(request, 'student/pass.html', locals())
 
 
 @is_student
 def pass_view(request, id):
     practice = Practice.objects.get(pk=id)
-    return render(request,'student/passView.html',locals())
+    student = Student.objects.get(user=request.user)
+    return render(request, 'student/passView.html', locals())
 
 
-# TODO FINISH THAT
 
 @is_student
 def report_view(request, id):
