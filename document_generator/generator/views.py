@@ -44,8 +44,8 @@ def new_ind(request, type):
         choice = IndividualTask.DIP
     else:
         return redirect('/ind_tasks/')
+    number = IndividualTask.objects.filter(practice_type=choice).count() + 1
     if request.POST:
-        number = IndividualTask.objects.filter(practice_type=choice).count() + 1
         form = IndividualTaskForm(request.POST or None, initial={
             'practice_type': choice,
             'task_number': number
@@ -57,7 +57,8 @@ def new_ind(request, type):
             return render(request, 'deanery/addIndTask.html', {'form': form})
     else:
         form = IndividualTaskForm(initial={
-            'practice_type': choice
+            'practice_type': choice,
+            'task_number': number
         })
         return render(request, 'deanery/addIndTask.html', {'form': form})
 
@@ -120,7 +121,7 @@ def new_student(request):
             form.save_m2m()
             # creating docs
             for practice in student.practice.all():
-                student_diary = Diary(student=student,practice=practice)
+                student_diary = Diary(student=student, practice=practice)
                 student_diary.save()
             return redirect("/students/")
         else:
@@ -171,32 +172,6 @@ def profile(request):
 def practice_docs(request, id):
     return render(request, 'student/docs.html', locals())
 
-
-# TODO FINISH THAT
-@is_student
-def edit_individual(request, id):
-    practice = Practice.objects.filter(pk=id)
-    tasks = IndividualTask.objects.filter(practice_type=practice.practice_type)
-    if request.POST:
-        pass
-    pass
-
-
-@is_student
-def edit_diary(request):
-    pass
-
-
-@is_student
-def edit_pass(request, id):
-    pass
-
-
-@is_student
-def pass_view(request, id):
-    pass
-
-
 @is_student
 def new_diary_record(request, id):
     practice = Practice.objects.get(pk=id)
@@ -205,7 +180,7 @@ def new_diary_record(request, id):
     if request.POST:
         form = DiaryRecordForm(request.POST or None)
         if form.is_valid():
-            record =  form.save(commit=False)
+            record = form.save(commit=False)
             record.diary = d
             record.save()
             return redirect('/practice_%s/diary/' % id)
@@ -289,6 +264,28 @@ def diary_download(request, id):
         cell.width = Inches(1.65)
 
     diary.save('prepairDocx/Заполненный дневник.docx')
+
+
+# TODO FINISH THAT
+@is_student
+def edit_individual(request, id):
+    practice = Practice.objects.filter(pk=id)
+    tasks = IndividualTask.objects.filter(practice_type=practice.practice_type)
+    if request.POST:
+        pass
+    pass
+
+@is_student
+def edit_pass(request, id):
+    pass
+
+
+@is_student
+def pass_view(request, id):
+    pass
+
+
+
 
 
 @is_student
