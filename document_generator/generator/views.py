@@ -1,7 +1,8 @@
 import random
 import string
+import urllib
 
-from django.shortcuts import render_to_response, render, redirect
+from django.shortcuts import HttpResponse, render_to_response, render, redirect
 from .models import *
 from .forms import *
 from .custom_decorators import is_deanery, is_student
@@ -14,6 +15,8 @@ from wsgiref.util import FileWrapper
 from docx import Document
 from docx.shared import Pt, Inches
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+
+path_to_docs = 'C:\\Users\\BOBA\\PycharmProjects\\smart_lab_practice_2k17\\document_generator\\docGenerator\\'
 
 
 @is_deanery
@@ -204,7 +207,7 @@ def diary_view(request, id):
     practice = Practice.objects.get(pk=id)
     diary = Diary.objects.get(practice=practice)
     records = DiaryRecord.objects.filter(diary=diary).order_by('date')
-    return render(request,'student/diaryView.html',locals())
+    return render(request, 'student/diaryView.html', locals())
 
 
 @is_student
@@ -234,13 +237,13 @@ def edit_record(request, id, record_id):
 
 @is_student
 def diary_download(request, id):
-    download(diary_save(request, id))
+    download(diary_save(request, id), 'diary')
 
 
-def diary_save(requset, id):
+def diary_save(requeset, id):
     practice = Practice.objects.get(pk=id)
     diary = Diary.objects.get(practice=practice)
-    records = DiaryRecord.objects.filter(diary)
+    records = DiaryRecord.objects.filter(diary=diary)
 
     diary = Document()
     font = diary.styles['Normal'].font
@@ -275,8 +278,8 @@ def diary_save(requset, id):
     for cell in table.columns[3].cells:
         cell.width = Inches(1.65)
 
-    diary.save('prepairDocx/Заполненный дневник.docx')
-    return 'docGenerator/prepairDocx/Заполненный дневник.docx'
+    diary.save(path_to_docs + 'prepairDocx\\Заполненный дневник.docx')
+    return 'Заполненный дневник.docx'
 
 
 # TODO FINISH THAT
@@ -307,19 +310,20 @@ def report_view(request, id):
     else:
         type = 'ПРОИЗВОДСТВЕННОЙ'
     student = Student.objects.get(user=request.user)
-    return render(request,'student/reportView.html',locals())
+    return render(request, 'student/reportView.html', locals())
 
 
 @is_student
 def report_download(request, id):
-    download(report_save(request, id))
+    download(report_save(request, id), 'report')
 
 
 def report_save(request, id):
-    s = Student.objecst.get(user=request.user)
+    s = Student.objects.get(user=request.user)
     p = Practice.objects.get(pk=id)
 
-    report = DocxTemplate("templates/report.docx")
+    report = DocxTemplate(
+        'C:\\Users\\BOBA\\PycharmProjects\\smart_lab_practice_2k17\\document_generator\\docGenerator\\report.docx')
 
     to_render = {'typePractice': "",
                  'orgName': p.company,
@@ -335,8 +339,8 @@ def report_save(request, id):
 
     report.render(to_render)
 
-    report.save("prepairDocx/Заполненный отчет.docx")
-    return "docGenerator/prepairDocx/Заполненный отчет.docx"
+    report.save(path_to_docs + "prepairDocx\\Заполненный отчет.docx")
+    return "Заполненный отчет.docx"
 
 
 @is_student
@@ -346,19 +350,20 @@ def individual_view(request, id):
 
 @is_student
 def individual_download(request, id):
-    download(individual_save(request, id))
+    download(individual_save(request, id), 'individual')
 
 
 def individual_save(request, id):
     s = Student.objects.get(user=request.user)
     p = Practice.objects.get(pk=id)
     inds = IndividualTask.objects.filter(practice_type=p.type)
-    filename = 'templates/indPr' + inds.count() + '.docx'
-    doc = DocxTemplate(filename)
+    filename = 'indPr' + str(inds.count()) + '.docx'
+    type_for_doc = p.type.lower()[0:-2]+'ую'
+    doc = DocxTemplate(path_to_docs + filename)
     to_render = {'yearF': "2016",
                  'yearT': "2017",
                  'profil': s.edu_profile,
-                 'entityName': s.company,
+                 'entityName': p.company,
                  'studFio': s.name,
                  'studCours': s.course,
                  'studGroup': s.group,
@@ -368,25 +373,25 @@ def individual_save(request, id):
                  'tutorKfuStatus': '',
                  'tutorEntityFio': p.chief,
                  'tutorKfuStatus': '',
-                 'typePractice': p.type.upper()
+                 'typePractice': type_for_doc
                  }
     i = 1
     for ind in inds.order_by('id'):
         if i > 5:
             i = len(inds)
 
-        to_render['task' + i] = ind.desc
-        to_render['dateF' + i] = ind.dateFrom
-        to_render['dateT' + i] = ind.dateFrom
+        to_render['task' + str(i)] = ind.desc
+        to_render['dateF' + str(i)] = ind.dateFrom
+        to_render['dateT' + str(i)] = ind.dateFrom
         i += 1
     doc.render(to_render)
-    doc.save('prepairDocx/Индивидуальное задание.docx')
-    return 'docGenerator/prepairDocx/Индивидуальное задание.docx'
+    doc.save(path_to_docs + 'prepairDocx\\Индивидуальное задание.docx')
+    return 'Индивидуальное задание.docx'
 
 
 @is_student
 def pass_download(request, id):
-    download(pass_save(request, id))
+    download(pass_save(request, id), 'pass')
     # may be redirect(...)
 
 
@@ -395,7 +400,8 @@ def pass_save(request, id):
     s = Student.objecst.get(user=request.user)
     p = Practice.objecst.get(pk=id)
     # do IT
-    doc = DocxTemplate("templates/permit.docx")
+    doc = DocxTemplate(path_to_docs + "permit.docx")
+    type_for_doc = p.type.lower()[0:-2]+'ой'
     changeTag = {'studCours': s.course,
                  'studGroup': s.group,
                  'departName': "Высшая школа ИТИС КФУ",
@@ -403,7 +409,7 @@ def pass_save(request, id):
                  'contDate': "",
                  'entityName': p.company,
                  'entityAdress': p.address,
-                 'practType': p.type,
+                 'practType': type_for_doc,
                  'practDateT1': p.date_from,
                  'practDateF1': p.date_to,
                  'practDateT2': "",
@@ -421,21 +427,23 @@ def pass_save(request, id):
                  'adminReview': s.report,
                  'departure': p.date_to}
     doc.render(changeTag)
-    doc.save("prepairDocx/Заполненная путевка.docx")
-    return 'docGenerator/prepairDocx/Заполненная путевка.docx'
+    doc.save(path_to_docs + "prepairDocx\\Заполненная путевка.docx")
+    return 'Заполненная путевка.docx'
 
 
-def download(file):
-    the_file = file
+def download(file, type):
+    the_file = path_to_docs + 'prepairDocx\\' + file
     filename = os.path.basename(the_file)
     chunk_size = 8192
-    response = StreamingHttpResponse(FileWrapper(open(the_file, 'rb'), chunk_size),
-                                     content_type=mimetypes.guess_type(the_file)[0])
+    response = HttpResponse(FileWrapper(the_file, chunk_size),
+                            content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
     response['Content-Length'] = os.path.getsize(the_file)
     response['Content-Disposition'] = "attachment; filename=%s" % filename
-    return response
+    # return response
+    template = type + '.html'
+    return render_to_response(template, locals())
 
 
 def report(request, id):
     practice = Practice.objects.get(pk=id)
-    return render(request, 'student/report.html',locals())
+    return render(request, 'student/report.html', locals())
