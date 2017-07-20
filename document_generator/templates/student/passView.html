@@ -113,14 +113,14 @@ _______________ /___________________/</FONT><FONT SIZE=2 STYLE="font-size: 9pt">
 </P>
 <P LANG="ru-RU" CLASS="western" STYLE="margin-bottom: 0in; line-height: 150%">
 <FONT SIZE=2 STYLE="font-size: 11pt">Обучающийся(щаяся)
-_____________  курса _________________  группы </FONT>
+{{ student.course }}  курса {{ student.group }}  группы </FONT>
 </P>
 <P LANG="ru-RU" CLASS="western" STYLE="margin-bottom: 0in; line-height: 150%">
 <FONT SIZE=2 STYLE="font-size: 11pt">института/факультета
-____________________________________________ </FONT>
+Высшая школа ИТИС </FONT>
 </P>
 <P LANG="ru-RU" CLASS="western" STYLE="margin-bottom: 0in">
-<FONT SIZE=2 ALIGN=LEFT STYLE="font-size: 11pt">_______________________________________________________________
+<FONT SIZE=2 ALIGN=LEFT STYLE="font-size: 11pt"> {{ student.name }}
                                              </FONT><FONT SIZE=2 ALIGN=CENTER STYLE="font-size: 9pt"><br/>(ФИО
 обучающегося)</FONT></P>
 <P LANG="ru-RU" CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0in; line-height: 150%">
@@ -128,7 +128,7 @@ ____________________________________________ </FONT>
 № ________________от «____»_____________20____г.</FONT></P>
 <P LANG="ru-RU" CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0in">
 <FONT SIZE=2 STYLE="font-size: 11pt">направляется  в
-_________________________________________________</FONT></P>
+{{ practice.company }} </FONT></P>
 <P LANG="ru-RU" CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0in">
                                                                      
 <FONT SIZE=2 STYLE="font-size: 9pt">(название организации)</FONT></P>
@@ -136,7 +136,7 @@ _________________________________________________</FONT></P>
 <FONT SIZE=2 STYLE="font-size: 11pt">___________________________________________________________</FONT></P>
 <P LANG="ru-RU" CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0in; line-height: 150%">
 <FONT SIZE=2 STYLE="font-size: 11pt">по
-адресу____________________________________________________</FONT></P>
+адресу {{ practice.address }} </FONT></P>
 <P LANG="ru-RU" CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0in">
 <FONT SIZE=2 STYLE="font-size: 11pt">для прохождения
 учебной, производственной, преддипломной
@@ -148,8 +148,7 @@ _________________________________________________</FONT></P>
 <BR>
 </P>
 <P LANG="ru-RU" CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0in; line-height: 150%">
-<FONT SIZE=2 STYLE="font-size: 11pt">с «____»_____________ 20
-_____ г. по «_____»_____________ 20 _____г.</FONT></P>
+<FONT SIZE=2 STYLE="font-size: 11pt">с {{ practice.date_from }} по {{ practice.date_to }} </FONT></P>
 <P LANG="ru-RU" CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0in; line-height: 150%">
 <FONT SIZE=2 STYLE="font-size: 11pt">с «____»_____________ 20
 _____ г. по «_____»_____________ 20 _____г.</FONT></P>
@@ -199,13 +198,13 @@ _____ г. по «_____»_____________ 20 _____г.</FONT></P>
 </P>
 <P LANG="ru-RU" CLASS="western" STYLE="margin-bottom: 0in; line-height: 150%">
 <FONT SIZE=2 STYLE="font-size: 11pt">Направление
-подготовки (специальность):___________________________</FONT></P>
+подготовки (специальность): {{ student.edu_profile }} </FONT></P>
 <P LANG="ru-RU" CLASS="western" STYLE="margin-bottom: 0in; line-height: 150%">
 <FONT SIZE=2 STYLE="font-size: 11pt">Профиль:
 _______________________________________________________</FONT></P>
 <P LANG="ru-RU" CLASS="western" STYLE="margin-bottom: 0in; line-height: 125%">
 <FONT SIZE=2 STYLE="font-size: 11pt">Квалификация:
-__________________________________________________</FONT></P>
+{{ student.status }} </FONT></P>
 <P LANG="ru-RU" CLASS="western" STYLE="margin-bottom: 0in; line-height: 125%">
                                                                     
 <FONT SIZE=2 STYLE="font-size: 9pt">(бакалавр, магистр,
@@ -217,13 +216,11 @@ _____________________________________________________________<br/>
 _____________________________________________________________<br/></FONT></P>
 <P LANG="ru-RU" CLASS="western" STYLE="margin-bottom: 0in; line-height: 125%">
 <FONT SIZE=2 STYLE="font-size: 11pt">Практикант явился
-на практику «______»________________20________г.</FONT></P>
+на практику {{ practice.date_from }} </FONT></P>
 <P LANG="ru-RU" CLASS="western" STYLE="margin-bottom: 0in; line-height: 125%">
 <FONT SIZE=2 STYLE="font-size: 11pt">Назначен в распоряжение
 (Ф.И.О., должность, стаж работы по
-специальности)________________________________________________<BR />
-_____________________________________________________________
-_____________________________________________________________</FONT></P>
+специальности) {{ practice.teacher }}</FONT></P>
 <P LANG="ru-RU" CLASS="western" STYLE="margin-bottom: 0in; line-height: 125%">
 <FONT SIZE=2 STYLE="font-size: 11pt">Практикант ознакомлен
 с правилами внутреннего трудового
@@ -292,7 +289,7 @@ ________________________________________________________________________<br/>
 </P>
 <P LANG="ru-RU" CLASS="western" STYLE="margin-bottom: 0in; line-height: 125%">
 <FONT SIZE=2 STYLE="font-size: 11pt">Практикант  выбыл
-с места практики «______»________________20____г.</FONT></P>
+с места практики {{ practice.date_to }} </FONT></P>
 <P LANG="ru-RU" CLASS="western" STYLE="margin-bottom: 0in; line-height: 125%">
 <BR>
 </P>
