@@ -293,7 +293,13 @@ def pass_view(request, id):
 
 @is_student
 def report_view(request, id):
-    pass
+    practice = Practice.objects.get(pk=id)
+    if practice.type == 'Учебная':
+        type = 'УЧЕБНОЙ'
+    else:
+        type = 'ПРОИЗВОДСТВЕННОЙ'
+    student = Student.objects.get(user=request.user)
+    return render(request,'student/reportView.html',locals())
 
 
 @is_student
@@ -344,3 +350,8 @@ def pass_download(request, id):
                  'departure': p.date_to}
     doc.render(changeTag)
     doc.save("prepairDocx/Заполненная путевка.docx")
+
+
+def report(request, id):
+    practice = Practice.objects.get(pk=id)
+    return render(request, 'student/report.html',locals())
