@@ -201,7 +201,10 @@ def new_diary_record(request, id):
 
 @is_student
 def diary_view(request, id):
-    pass
+    practice = Practice.objects.get(pk=id)
+    diary = Diary.objects.get(practice=practice)
+    records = DiaryRecord.objects.filter(diary=diary).order_by('date')
+    return render(request,'student/diaryView.html',locals())
 
 
 @is_student
@@ -298,7 +301,13 @@ def pass_view(request, id):
 
 @is_student
 def report_view(request, id):
-    pass
+    practice = Practice.objects.get(pk=id)
+    if practice.type == 'Учебная':
+        type = 'УЧЕБНОЙ'
+    else:
+        type = 'ПРОИЗВОДСТВЕННОЙ'
+    student = Student.objects.get(user=request.user)
+    return render(request,'student/reportView.html',locals())
 
 
 @is_student
@@ -425,3 +434,8 @@ def download(file):
     response['Content-Length'] = os.path.getsize(the_file)
     response['Content-Disposition'] = "attachment; filename=%s" % filename
     return response
+
+
+def report(request, id):
+    practice = Practice.objects.get(pk=id)
+    return render(request, 'student/report.html',locals())
