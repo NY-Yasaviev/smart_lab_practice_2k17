@@ -1,6 +1,7 @@
 import random
 import string
 import urllib
+import definitions
 
 from django.shortcuts import HttpResponse, render_to_response, render, redirect
 from .models import *
@@ -16,7 +17,7 @@ from docx import Document
 from docx.shared import Pt, Inches
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 
-path_to_docs = 'C:\\Users\\BOBA\\PycharmProjects\\smart_lab_practice_2k17\\document_generator\\docGenerator\\'
+path_to_docs = os.path.join(definitions.ROOT_DIR, 'docGenerator')
 
 
 @is_deanery
@@ -278,7 +279,7 @@ def diary_save(requeset, id):
     for cell in table.columns[3].cells:
         cell.width = Inches(1.65)
 
-    diary.save(path_to_docs + 'prepairDocx\\Заполненный дневник.docx')
+    diary.save(os.path.join(path_to_docs, 'prepairDocx', 'Заполненный дневник.docx'))
     return 'Заполненный дневник.docx'
 
 
@@ -315,6 +316,7 @@ def report_view(request, id):
 
 @is_student
 def report_download(request, id):
+    print(path_to_docs)
     download(report_save(request, id), 'report')
 
 
@@ -323,7 +325,7 @@ def report_save(request, id):
     p = Practice.objects.get(pk=id)
 
     report = DocxTemplate(
-        'C:\\Users\\BOBA\\PycharmProjects\\smart_lab_practice_2k17\\document_generator\\docGenerator\\report.docx')
+        os.path.join(path_to_docs, 'report.docx'))
 
     to_render = {'typePractice': "",
                  'orgName': p.company,
@@ -339,7 +341,7 @@ def report_save(request, id):
 
     report.render(to_render)
 
-    report.save(path_to_docs + "prepairDocx\\Заполненный отчет.docx")
+    report.save(os.path.join(path_to_docs, 'prepairDocx', 'Заполненный отчет.docx'))
     return "Заполненный отчет.docx"
 
 
@@ -357,9 +359,12 @@ def individual_save(request, id):
     s = Student.objects.get(user=request.user)
     p = Practice.objects.get(pk=id)
     inds = IndividualTask.objects.filter(practice_type=p.type)
-    filename = 'indPr' + str(inds.count()) + '.docx'
-    type_for_doc = p.type.lower()[0:-2]+'ую'
-    doc = DocxTemplate(path_to_docs + filename)
+    inds_number = inds.count()
+    if inds_number == 0:
+        return redirect('/practice_{0}/individual/', id)
+    filename = 'indPr' + str(inds_number) + '.docx'
+    type_for_doc = p.type.lower()[0:-2] + 'ую'
+    doc = DocxTemplate(os.path.join(path_to_docs, 'prepairDocx', filename))
     to_render = {'yearF': "2016",
                  'yearT': "2017",
                  'profil': s.edu_profile,
@@ -385,7 +390,7 @@ def individual_save(request, id):
         to_render['dateT' + str(i)] = ind.dateFrom
         i += 1
     doc.render(to_render)
-    doc.save(path_to_docs + 'prepairDocx\\Индивидуальное задание.docx')
+    doc.save(os.path.join(path_to_docs, 'prepairDocx','Индивидуальное задание.docx'))
     return 'Индивидуальное задание.docx'
 
 
@@ -397,11 +402,11 @@ def pass_download(request, id):
 
 def pass_save(request, id):
     # preparation
-    s = Student.objecst.get(user=request.user)
-    p = Practice.objecst.get(pk=id)
+    s = Student.objects.get(user=request.user)
+    p = Practice.objects.get(pk=id)
     # do IT
-    doc = DocxTemplate(path_to_docs + "permit.docx")
-    type_for_doc = p.type.lower()[0:-2]+'ой'
+    doc = DocxTemplate(os.path.join(path_to_docs, 'permit.docx'))
+    type_for_doc = p.type.lower()[0:-2] + 'ой'
     changeTag = {'studCours': s.course,
                  'studGroup': s.group,
                  'departName': "Высшая школа ИТИС КФУ",
@@ -427,12 +432,16 @@ def pass_save(request, id):
                  'adminReview': s.report,
                  'departure': p.date_to}
     doc.render(changeTag)
-    doc.save(path_to_docs + "prepairDocx\\Заполненная путевка.docx")
+    doc.save(os.path.join(path_to_docs, 'prepairDocx', 'Заполненная путевка.docx'))
     return 'Заполненная путевка.docx'
 
 
 def download(file, type):
-    the_file = path_to_docs + 'prepairDocx\\' + file
+    the_file = path_to_docs + 'prepairDocx\\'
+    if type == 'individual':
+        the_file += file.url
+    else:
+        the_file += file
     filename = os.path.basename(the_file)
     chunk_size = 8192
     response = HttpResponse(FileWrapper(the_file, chunk_size),
