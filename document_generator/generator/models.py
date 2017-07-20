@@ -22,7 +22,6 @@ class Practice(Model):
                      default=EDU)
     date_from = DateField("Начало", null=True)
     date_to = DateField("Окончание", null=True)
-    necessary_works = CharField(max_length=80, null=True)  # в каких видах работ нуждается
 
     def __str__(self):
         return self.name
@@ -44,9 +43,6 @@ class Student(Model):
         max_length=50, null=True, default=engineering)  # направление
     contract = BooleanField(default=False)  # наличие договора
     status = CharField(max_length=20, null=True)  # бакалавр и тд.
-    report = TextField(max_length=1429, null=True)  # big field 1
-    review = TextField(max_length=1034, null=True)  # big field 2
-    mark = CharField(max_length=20, null=True)  # оценка
 
     def __str__(self):
         return "%s - %s" % (self.name, self.group)
@@ -77,10 +73,6 @@ class Deanery(Model):
 
 
 class IndividualTask(Model):
-    dateFrom = DateField(blank=True, null=True)
-    dateTo = DateField(blank=True, null=True)
-    desc = CharField(max_length=200, null=True)
-    student = ManyToManyField(Student)
     EDU = 'Учебная'
     PROD = 'Произведственная'
     DIP = 'Преддипломная'
@@ -91,6 +83,10 @@ class IndividualTask(Model):
     practice_type = CharField(max_length=20,
                               choices=CHOICES,
                               default=EDU)
+    desc = CharField(max_length=200, null=True)
+    dateFrom = DateField(blank=True, null=True)
+    dateTo = DateField(blank=True, null=True)
+    student = ManyToManyField(Student)
 
     def __str__(self):
         return "%s - %s" % (self.desc, self.practice_type)
