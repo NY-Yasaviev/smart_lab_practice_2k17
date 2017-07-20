@@ -9,18 +9,37 @@ class DateInput(DateInput):
 class PracticeForm(ModelForm):
     class Meta:
         model = Practice
-        exclude = ['necessary_works']
+        fields = '__all__'
         widgets = {
             "Начало": DateInput(),
             "Окончание": DateInput()
+        }
+        labels = {
+            'name': "Название практики",
+            'teacher': "Руководитель практики от университета",
+            'chief': "Руководитель практики от профильной организации",
+            'director': "Руководитель профильной организации",
+            'company': "Название организации",
+            'address': "Адрес",
+            'type': "Тип практики",
+            'date_from': "Дата начала",
+            'date_to': "Дата окончания"
         }
 
 
 class StudentForm(ModelForm):
     class Meta:
         model = Student
-        exclude = ['login', 'password', 'user', 'report', 'review', 'mark']
-
+        exclude = ['login', 'password', 'user']
+        labels = {
+            'name': "ФИО",
+            'course': "Курс",
+            'group': "Группа",
+            'practice': "Практика(может быть несколько)",
+            'edu_profile': "Направление подготовки",
+            'contract': "Наличие договора о практике",
+            'status': "Квалификация"
+        }
 
 class DiaryRecordForm(ModelForm):
     class Meta:
@@ -29,9 +48,19 @@ class DiaryRecordForm(ModelForm):
         widgets = {
             'Дата': DateInput()
         }
+        labels = {
+            'description': "Описание выполненной работы",
+            'date' : "Дата"
+        }
 
 
 class IndividualTaskForm(ModelForm):
     class Meta:
         model = IndividualTask
-        exclude = ['dateFrom', 'dateTo', 'student']
+        exclude = ['student']
+        labels = {
+            'practice_type': "Тип практики",
+            'desc': " Индивидуальное задание",
+            'dateFrom': "Дата начала",
+            'dateTo': "Дата окончания"
+        }

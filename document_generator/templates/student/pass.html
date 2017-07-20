@@ -1,0 +1,7 @@
+{% extends 'main.html' %}
+
+{% block body %}
+    {% include 'menuForStudent.html' %}
+    <a href="/practice_{{ practice.id }}/pass/view/">Просмотр</a>
+    <a href="/practice_{{ practice.id }}/pass/d/">Скачать</a>
+{% endblock %}

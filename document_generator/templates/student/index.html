@@ -9,12 +9,23 @@
                 <div class="deanery-main">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <p class="deanery-main-practice-header1" href="/practices/">Доступные практики:</p>
+                            <a class="deanery-main-practice-header1 deacthref">Доступные практики:</a>
                         </div>
                         <div class="panel-body">
-                            {% for practice in practices %}
-                                <a href="/practice_{{ practice.id }}/">{{ practice.name }}</a>
-                            {% endfor %}
+                            <table style="width: 100%;">
+                                <tr>
+                                    <th class="col-xs-4" style="padding-left: 20px;">Название:</th>
+                                    <th class="col-xs-4" style="padding-left: 20px;">Дата начала:</th>
+                                    <th class="col-xs-4" style="padding-left: 20px;">Дата конца:</th>
+                                </tr>
+                                {% for practice in practices %}
+                                    <tr>
+                                        <td class="col-xs-4"><a href="/practice_{{ practice.id }}/">{{ practice.name }}</a></td>
+                                        <td class="col-xs-4"><a class="deacthref"> {{ practice.date_from }}</a></td>
+                                        <td class="col-xs-4"><a class="deacthref">{{ practice.date_to }}</a></td>
+                                    </tr>
+                                    </table>
+                                {% endfor %}
                         </div>
                     </div>
                 </div>

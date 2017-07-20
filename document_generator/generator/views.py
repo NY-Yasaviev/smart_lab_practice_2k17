@@ -283,24 +283,25 @@ def diary_save(requeset, id):
     return 'Заполненный дневник.docx'
 
 
-# TODO FINISH THAT
 @is_student
-def edit_individual(request, id):
-    practice = Practice.objects.filter(pk=id)
-    tasks = IndividualTask.objects.filter(practice_type=practice.practice_type)
-    if request.POST:
-        pass
-    pass
+def individual(request, id):
+    practice = Practice.objects.get(pk=id)
+    return render(request, 'student/individual.html', locals())
+
 
 
 @is_student
 def edit_pass(request, id):
-    pass
+    practice = Practice.objects.get(pk=id)
+    return render(request, 'student/pass.html', locals())
 
 
 @is_student
 def pass_view(request, id):
-    pass
+    practice = Practice.objects.get(pk=id)
+    student = Student.objects.get(user=request.user)
+    return render(request, 'student/passView.html', locals())
+
 
 
 @is_student
@@ -347,7 +348,16 @@ def report_save(request, id):
 
 @is_student
 def individual_view(request, id):
-    pass
+    practice = Practice.objects.get(pk=id)
+    if practice.type == 'Учебная':
+        type = 'учебную'
+    elif practice.type == 'Производственная':
+        type = 'производственную'
+    else:
+        type = 'преддипломную'
+    student = Student.objects.get(user=request.user)
+    inds = IndividualTask.objects.filter(practice_type=practice.type)
+    return render(request, 'student/indView.html', locals())
 
 
 @is_student
