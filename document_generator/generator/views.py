@@ -421,15 +421,11 @@ def pass_save(request, id):
                  'practDateF2': "",
                  'practDateT3': "",
                  'practDateF3': "",
-                 'corollary': s.review,
-                 'mark': s.mark,
                  'spec': s.edu_profile,
                  'profil': "",
                  'skill': s.status,
-                 'needActivType': p.necessary_works,
                  'showUp': p.date_from,
                  'tutor': p.chief,
-                 'adminReview': s.report,
                  'departure': p.date_to}
     doc.render(changeTag)
     doc.save(os.path.join(path_to_docs, 'prepairDocx', 'Заполненная путевка.docx'))
