@@ -97,3 +97,6 @@ body{
     cursor: text;
     color: black;
 }
+.deanery-main .panel .panel-body .col-xs-4{
+    padding: 0;
+}
