@@ -204,7 +204,7 @@ def diary_view(request, id):
     practice = Practice.objects.get(pk=id)
     diary = Diary.objects.get(practice=practice)
     records = DiaryRecord.objects.filter(diary=diary).order_by('date')
-    return render(request,'student/diaryView.html',locals())
+    return render(request, 'student/diaryView.html', locals())
 
 
 @is_student
@@ -284,16 +284,43 @@ def individual(request, id):
     practice = Practice.objects.get(pk=id)
     return render(request, 'student/individual.html', locals())
 
+
 # TODO FINISH THAT
 
 @is_student
 def edit_pass(request, id):
-    pass
+    practice = Practice.objects.get(pk=id)
+    student = Student.objects.get(user=request.user)
+    if request.POST:
+        form = PassForm(request.POST or None, initial={
+            'necessary_works': practice.necessary_works,
+            'report': student.report,
+            'review': student.review,
+            'mark': student.mark
+        })
+        if form.is_valid():
+            practice.necessary_works = form.cleaned_data['necessary_works']
+            student.report = form.cleaned_data['report']
+            student.review = form.cleaned_data['review']
+            student.mark = form.cleaned_data['mark']
+            return redirect("/practice_%s/pass/" % id)
+        else:
+            return render(request, 'student/pass.html')
+    else:
+        form = PassForm(initial={
+            'necessary_works': practice.necessary_works,
+            'report': student.report,
+            'review': student.review,
+            'mark': student.mark
+        })
+        return render(request, 'student/pass.html', locals())
 
 
 @is_student
 def pass_view(request, id):
-    pass
+    practice = Practice.objects.get(pk=id)
+    return render(request,'student/passView.html',locals())
+
 
 # TODO FINISH THAT
 
@@ -305,7 +332,7 @@ def report_view(request, id):
     else:
         type = 'ПРОИЗВОДСТВЕННОЙ'
     student = Student.objects.get(user=request.user)
-    return render(request,'student/reportView.html',locals())
+    return render(request, 'student/reportView.html', locals())
 
 
 @is_student
@@ -445,4 +472,4 @@ def download(file):
 
 def report(request, id):
     practice = Practice.objects.get(pk=id)
-    return render(request, 'student/report.html',locals())
+    return render(request, 'student/report.html', locals())
