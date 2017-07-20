@@ -68,7 +68,6 @@ class DiaryRecord(Model):
     description = CharField(max_length=40, null=True)
     date = DateField('Дата', null=True)
     diary = ForeignKey(Diary, on_delete=CASCADE)
-    number = IntegerField
 
 
 class Deanery(Model):
@@ -81,7 +80,6 @@ class IndividualTask(Model):
     dateFrom = DateField(blank=True, null=True)
     dateTo = DateField(blank=True, null=True)
     desc = CharField(max_length=200, null=True)
-    task_number = IntegerField
     student = ManyToManyField(Student)
     EDU = 'Учебная'
     PROD = 'Произведственная'
