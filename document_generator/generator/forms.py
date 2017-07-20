@@ -34,4 +34,4 @@ class DiaryRecordForm(ModelForm):
 class IndividualTaskForm(ModelForm):
     class Meta:
         model = IndividualTask
-        exclude = ['dateFrom', 'dateTo', 'student']
+        exclude = ['student']

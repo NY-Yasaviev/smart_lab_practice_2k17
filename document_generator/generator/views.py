@@ -240,7 +240,7 @@ def diary_download(request, id):
 def diary_save(requset, id):
     practice = Practice.objects.get(pk=id)
     diary = Diary.objects.get(practice=practice)
-    records = DiaryRecord.objects.filter(diary)
+    records = DiaryRecord.objects.filter(diary=diary)
 
     diary = Document()
     font = diary.styles['Normal'].font
@@ -279,12 +279,12 @@ def diary_save(requset, id):
     return 'docGenerator/prepairDocx/Заполненный дневник.docx'
 
 
-# TODO FINISH THAT
 @is_student
 def individual(request, id):
     practice = Practice.objects.get(pk=id)
     return render(request, 'student/individual.html', locals())
 
+# TODO FINISH THAT
 
 @is_student
 def edit_pass(request, id):
@@ -295,6 +295,7 @@ def edit_pass(request, id):
 def pass_view(request, id):
     pass
 
+# TODO FINISH THAT
 
 @is_student
 def report_view(request, id):
@@ -338,7 +339,16 @@ def report_save(request, id):
 
 @is_student
 def individual_view(request, id):
-    return render(request, 'student/indView1.html')
+    practice = Practice.objects.get(pk=id)
+    if practice.type == 'Учебная':
+        type = 'учебную'
+    elif practice.type == 'Производственная':
+        type = 'производственную'
+    else:
+        type = 'преддипломную'
+    student = Student.objects.get(user=request.user)
+    inds = IndividualTask.objects.filter(practice_type=practice.type)
+    return render(request, 'student/indView.html', locals())
 
 
 @is_student
