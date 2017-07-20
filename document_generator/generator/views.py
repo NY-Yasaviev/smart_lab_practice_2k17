@@ -7,6 +7,13 @@ from .forms import *
 from .custom_decorators import is_deanery, is_student
 from django.contrib.auth import get_user_model
 from docxtpl import DocxTemplate
+import os
+import mimetypes
+from django.http import StreamingHttpResponse
+from wsgiref.util import FileWrapper
+from docx import Document
+from docx.shared import Pt, Inches
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 
 
 @is_deanery
@@ -172,6 +179,7 @@ def profile(request):
 def practice_docs(request, id):
     return render(request, 'student/docs.html', locals())
 
+
 @is_student
 def new_diary_record(request, id):
     practice = Practice.objects.get(pk=id)
@@ -226,9 +234,14 @@ def edit_record(request, id, record_id):
 
 @is_student
 def diary_download(request, id):
-    from docx import Document
-    from docx.shared import Pt, Inches
-    from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+    download(diary_save(request, id))
+
+
+def diary_save(requset, id):
+    practice = Practice.objects.get(pk=id)
+    diary = Diary.objects.get(practice=practice)
+    records = DiaryRecord.objects.filter(diary)
+
     diary = Document()
     font = diary.styles['Normal'].font
     font.name = 'Times New Roman'
@@ -243,15 +256,11 @@ def diary_download(request, id):
     hat.cells[1].add_paragraph('Описание выполненной работы').paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
     hat.cells[2].add_paragraph('Дата').paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
     hat.cells[3].add_paragraph('Отметка\nруководителя').paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-    # data
-    practice = Practice.objects.get(pk=id)
-    diary = Diary.objects.get(practice=practice)
-    records = DiaryRecord.objecst.filter(diary=diary)
-
     # Заполнение таблицы
-    for i in range(10):
+    i = 1
+    for record in records:
         nextRow = table.add_row()
-        nextRow.cells[0].add_paragraph(str(i + 1)).paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+        nextRow.cells[0].add_paragraph(str(i)).paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
         nextRow.cells[1].add_paragraph('some_text').paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
         nextRow.cells[2].add_paragraph('some_date').paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
         nextRow.cells[3].add_paragraph('some_mark').paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
@@ -267,6 +276,7 @@ def diary_download(request, id):
         cell.width = Inches(1.65)
 
     diary.save('prepairDocx/Заполненный дневник.docx')
+    return 'docGenerator/prepairDocx/Заполненный дневник.docx'
 
 
 # TODO FINISH THAT
@@ -278,6 +288,7 @@ def edit_individual(request, id):
         pass
     pass
 
+
 @is_student
 def edit_pass(request, id):
     pass
@@ -286,9 +297,6 @@ def edit_pass(request, id):
 @is_student
 def pass_view(request, id):
     pass
-
-
-
 
 
 @is_student
@@ -304,7 +312,31 @@ def report_view(request, id):
 
 @is_student
 def report_download(request, id):
-    pass
+    download(report_save(request, id))
+
+
+def report_save(request, id):
+    s = Student.objecst.get(user=request.user)
+    p = Practice.objects.get(pk=id)
+
+    report = DocxTemplate("templates/report.docx")
+
+    to_render = {'typePractice': "",
+                 'orgName': p.company,
+                 'practLeader': p.teacher,
+                 'studGroup': s.group,
+                 'compLeader': p.chief,
+                 'studFio': s.name
+                 }
+    if p.type == p.PROD or p.type == p.DIP:
+        to_render['typePractice'] = "ПРОИЗВОДСТВЕННАЯ"
+    else:
+        to_render['typePractice'] = "УЧЕБНАЯ"
+
+    report.render(to_render)
+
+    report.save("prepairDocx/Заполненный отчет.docx")
+    return "docGenerator/prepairDocx/Заполненный отчет.docx"
 
 
 @is_student
@@ -314,11 +346,51 @@ def individual_view(request, id):
 
 @is_student
 def individual_download(request, id):
-    pass
+    download(individual_save(request, id))
+
+
+def individual_save(request, id):
+    s = Student.objects.get(user=request.user)
+    p = Practice.objects.get(pk=id)
+    inds = IndividualTask.objects.filter(practice_type=p.type)
+    filename = 'templates/indPr' + inds.count() + '.docx'
+    doc = DocxTemplate(filename)
+    to_render = {'yearF': "2016",
+                 'yearT': "2017",
+                 'profil': s.edu_profile,
+                 'entityName': s.company,
+                 'studFio': s.name,
+                 'studCours': s.course,
+                 'studGroup': s.group,
+                 'dateF': p.date_from,
+                 'dateT': p.date_to,
+                 'tutorKfuFio': p.teacher,
+                 'tutorKfuStatus': '',
+                 'tutorEntityFio': p.chief,
+                 'tutorKfuStatus': '',
+                 'typePractice': p.type.upper()
+                 }
+    i = 1
+    for ind in inds.order_by('id'):
+        if i > 5:
+            i = len(inds)
+
+        to_render['task' + i] = ind.desc
+        to_render['dateF' + i] = ind.dateFrom
+        to_render['dateT' + i] = ind.dateFrom
+        i += 1
+    doc.render(to_render)
+    doc.save('prepairDocx/Индивидуальное задание.docx')
+    return 'docGenerator/prepairDocx/Индивидуальное задание.docx'
 
 
 @is_student
 def pass_download(request, id):
+    download(pass_save(request, id))
+    # may be redirect(...)
+
+
+def pass_save(request, id):
     # preparation
     s = Student.objecst.get(user=request.user)
     p = Practice.objecst.get(pk=id)
@@ -350,6 +422,18 @@ def pass_download(request, id):
                  'departure': p.date_to}
     doc.render(changeTag)
     doc.save("prepairDocx/Заполненная путевка.docx")
+    return 'docGenerator/prepairDocx/Заполненная путевка.docx'
+
+
+def download(file):
+    the_file = file
+    filename = os.path.basename(the_file)
+    chunk_size = 8192
+    response = StreamingHttpResponse(FileWrapper(open(the_file, 'rb'), chunk_size),
+                                     content_type=mimetypes.guess_type(the_file)[0])
+    response['Content-Length'] = os.path.getsize(the_file)
+    response['Content-Disposition'] = "attachment; filename=%s" % filename
+    return response
 
 
 def report(request, id):
