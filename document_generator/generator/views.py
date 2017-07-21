@@ -181,6 +181,7 @@ def profile(request):
 
 @is_student
 def practice_docs(request, id):
+    title = "Доступные документы по практике"
     return render(request, 'student/docs.html', locals())
 
 
@@ -189,6 +190,7 @@ def new_diary_record(request, id):
     practice = Practice.objects.get(pk=id)
     student = Student.objects.get(user=request.user)
     d = Diary.objects.filter(student=student).get(practice=practice)
+    title = "Добавление записи в дневник"
     if request.POST:
         form = DiaryRecordForm(request.POST or None)
         if form.is_valid():
@@ -213,6 +215,7 @@ def diary_view(request, id):
 
 @is_student
 def diary(request, id):
+    title = "Дневник"
     practice = Practice.objects.get(pk=id)
     diary = Diary.objects.get(practice=practice)
     records = DiaryRecord.objects.filter(diary=diary).order_by('date')
@@ -221,6 +224,7 @@ def diary(request, id):
 
 @is_student
 def edit_record(request, id, record_id):
+    title = "Редактирование записи в дневнике"
     practice = Practice.objects.get(pk=id)
     diary = Diary.objects.get(practice=practice)
     record = DiaryRecord.objects.get(pk=record_id)
@@ -285,6 +289,7 @@ def diary_save(requeset, id):
 
 @is_student
 def individual(request, id):
+    title = "Индивидуальное задание"
     practice = Practice.objects.get(pk=id)
     return render(request, 'student/individual.html', locals())
 
@@ -292,6 +297,7 @@ def individual(request, id):
 
 @is_student
 def edit_pass(request, id):
+    title = "Путевка студента-практиканта"
     practice = Practice.objects.get(pk=id)
     return render(request, 'student/pass.html', locals())
 
@@ -460,5 +466,6 @@ def download(file, type):
 
 
 def report(request, id):
+    title = "Титульный лист отчета"
     practice = Practice.objects.get(pk=id)
     return render(request, 'student/report.html', locals())

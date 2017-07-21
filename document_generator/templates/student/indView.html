@@ -1,135 +1,171 @@
-{% extends 'main.html' %}
-{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        table {
+            width: 100%;
+        }
+        table p{
+            margin-bottom: 0;
+        }
+
+        p {
+            margin-top: 0;
+        }
+
+        body {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
 <P LANG="en-US" ALIGN=CENTER STYLE="margin-left: 3.88in; text-indent: -3.88in; margin-bottom: 0in">
-<FONT FACE="Microsoft Sans Serif, serif"><FONT SIZE=4 STYLE="font-size: 16pt"><FONT FACE="Times New Roman, serif"><FONT SIZE=4><SPAN STYLE="font-weight: normal">Министерство
+    <FONT FACE="Microsoft Sans Serif, serif"><FONT SIZE=4 STYLE="font-size: 16pt"><FONT
+            FACE="Times New Roman, serif"><FONT SIZE=4><SPAN STYLE="font-weight: normal">Министерство
 образования и науки Российской Федерации</SPAN></FONT></FONT></FONT></FONT></P>
 <P LANG="en-US" ALIGN=CENTER STYLE="margin-left: 3.88in; text-indent: -3.88in; margin-bottom: 0in">
-<FONT FACE="Microsoft Sans Serif, serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B><FONT FACE="Times New Roman, serif"><FONT SIZE=4><SPAN LANG="ru-RU">Ф</SPAN></FONT></FONT><FONT FACE="Times New Roman, serif"><FONT SIZE=4>едеральное
-государственное </FONT></FONT><FONT FACE="Times New Roman, serif"><FONT SIZE=4><SPAN LANG="ru-RU">автономное
+    <FONT FACE="Microsoft Sans Serif, serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B><FONT
+            FACE="Times New Roman, serif"><FONT SIZE=4><SPAN LANG="ru-RU">Ф</SPAN></FONT></FONT><FONT
+            FACE="Times New Roman, serif"><FONT SIZE=4>едеральное
+        государственное </FONT></FONT><FONT FACE="Times New Roman, serif"><FONT SIZE=4><SPAN LANG="ru-RU">автономное
 </SPAN></FONT></FONT><FONT FACE="Times New Roman, serif"><FONT SIZE=4>образовательное
-учреждение</FONT></FONT></B></FONT></FONT></P>
+        учреждение</FONT></FONT></B></FONT></FONT></P>
 <P LANG="en-US" ALIGN=CENTER STYLE="margin-left: 3.88in; text-indent: -3.88in; margin-bottom: 0in">
-<FONT FACE="Microsoft Sans Serif, serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B><FONT FACE="Times New Roman, serif"><FONT SIZE=4>высшего
-образования</FONT></FONT></B></FONT></FONT></P>
+    <FONT FACE="Microsoft Sans Serif, serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B><FONT
+            FACE="Times New Roman, serif"><FONT SIZE=4>высшего
+        образования</FONT></FONT></B></FONT></FONT></P>
 <P LANG="en-US" ALIGN=CENTER STYLE="margin-left: 3.88in; text-indent: -3.88in; margin-bottom: 0in">
-<FONT FACE="Microsoft Sans Serif, serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B><FONT FACE="Times New Roman, serif"><FONT SIZE=4>«</FONT></FONT><FONT FACE="Times New Roman, serif"><FONT SIZE=4><SPAN LANG="ru-RU">Казанский
-(Приволжский) федеральный университет</SPAN></FONT></FONT><FONT FACE="Times New Roman, serif"><FONT SIZE=4>»</FONT></FONT></B></FONT></FONT></P>
+    <FONT FACE="Microsoft Sans Serif, serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B><FONT
+            FACE="Times New Roman, serif"><FONT SIZE=4>«</FONT></FONT><FONT FACE="Times New Roman, serif"><FONT
+            SIZE=4><SPAN LANG="ru-RU">Казанский
+(Приволжский) федеральный университет</SPAN></FONT></FONT><FONT FACE="Times New Roman, serif"><FONT
+            SIZE=4>»</FONT></FONT></B></FONT></FONT></P>
 <P CLASS="western"><BR><BR>
 </P>
 <P CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0in"><FONT SIZE=4><B>Индивидуальное
-задание (план-график)</B></FONT></P>
-<P CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0in"> <FONT SIZE=4><B>на
-{{ type }}  практику</B></FONT></P>
+    задание (план-график)</B></FONT></P>
+<P CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0in"><FONT SIZE=4><B>на
+    {{ type }} практику</B></FONT></P>
 <P CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0in"> (2016 /
-2017 учебный год)</P>
+    2017 учебный год)</P>
 <P CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0in"><BR>
 </P>
 <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0in">Институт/факультет
-<B>Высшая школа информационных технологий
-и информационных систем</B></P>
+    <B>Высшая школа информационных технологий
+        и информационных систем</B></P>
 <P CLASS="western" STYLE="margin-bottom: 0in">Направление
-подготовки, профиль   {{ student.edu_profile }}</P>
+    подготовки, профиль {{ student.edu_profile }}</P>
 <P CLASS="western" STYLE="margin-bottom: 0in">Место прохождения
-практики  <U>{{ practice.company }}</U></P>
+    практики <U>{{ practice.company }}</U></P>
 <P CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0in"><SUB>
-                                         (</SUB><SUB><I>наименование
-организации/ведомства)</I></SUB></P>
+    (</SUB><SUB><I>наименование
+    организации/ведомства)</I></SUB></P>
 <P CLASS="western" STYLE="margin-bottom: 0in">Обучающийся
-<U>{{ student.name }}, группа
-{{ student.group }}</U></P>
+    <U>{{ student.name }}, группа
+        {{ student.group }}</U></P>
 <P CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0in"><FONT SIZE=1 STYLE="font-size: 8pt"><I>(ФИО,
-курс, группа)</I></FONT></P>
+    курс, группа)</I></FONT></P>
 <P CLASS="western" STYLE="margin-bottom: 0in">Срок прохождения
-практики с {{ practice.date_from }} по {{ practice.date_to }}</P>
+    практики с {{ practice.date_from }} по {{ practice.date_to }}</P>
 <P CLASS="western" STYLE="margin-bottom: 0in"><BR>
 </P>
 <P CLASS="western" STYLE="margin-bottom: 0in">Руководитель
-практики от Университета
-<U>{{ practice.teacher }}</U></P>
+    практики от Университета
+    <U>{{ practice.teacher }}</U></P>
 <P CLASS="western" STYLE="margin-bottom: 0in">
-                                                     <FONT SIZE=1 STYLE="font-size: 8pt"><I>(ФИО,
-должность, ученое звание)</I></FONT></P>
+    <FONT SIZE=1 STYLE="font-size: 8pt"><I>(ФИО,
+        должность, ученое звание)</I></FONT></P>
 <P CLASS="western" STYLE="margin-bottom: 0in">Содержание
-индивидуального задания на практику:</P>
+    индивидуального задания на практику:</P>
 <P CLASS="western" STYLE="margin-bottom: 0in"><BR>
 </P>
 <TABLE WIDTH=680 CELLPADDING=7 CELLSPACING=0>
-	<COL WIDTH=39>
-	<COL WIDTH=433>
-	<COL WIDTH=165>
-	<TR>
-		<TD WIDTH=39 HEIGHT=69 VALIGN=TOP STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-			<P CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0in">№
-			</P>
-			<P CLASS="western" ALIGN=CENTER>п/п</P>
-		</TD>
-		<TD WIDTH=433 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-			<P CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0in">Индивидуальные
-			задания
-			</P>
-			<P CLASS="western" ALIGN=CENTER>(перечень и описание
-			работ)</P>
-		</TD>
-		<TD WIDTH=165 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-			<P CLASS="western" ALIGN=CENTER STYLE="margin-left: 0.42in; text-indent: -0.42in; margin-bottom: 0in">
-			Сроки выполнения</P>
-			<P CLASS="western" ALIGN=CENTER STYLE="margin-left: 0.42in; text-indent: -0.42in">
-			(график)</P>
-		</TD>
-	</TR>
+    <COL WIDTH=39>
+    <COL WIDTH=433>
+    <COL WIDTH=165>
+    <TR>
+        <TD WIDTH=39 HEIGHT=69 VALIGN=TOP
+            STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+            <P CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0in">№
+            </P>
+            <P CLASS="western" ALIGN=CENTER>п/п</P>
+        </TD>
+        <TD WIDTH=433
+            STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+            <P CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0in">Индивидуальные
+                задания
+            </P>
+            <P CLASS="western" ALIGN=CENTER>(перечень и описание
+                работ)</P>
+        </TD>
+        <TD WIDTH=165
+            STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+            <P CLASS="western" ALIGN=CENTER STYLE="margin-left: 0.42in; text-indent: -0.42in; margin-bottom: 0in">
+                Сроки выполнения</P>
+            <P CLASS="western" ALIGN=CENTER STYLE="margin-left: 0.42in; text-indent: -0.42in">
+                (график)</P>
+        </TD>
+    </TR>
     {% for ind in inds %}
-	<TR>
-		<TD WIDTH=39 HEIGHT=16 VALIGN=TOP STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-			<P CLASS="western" ALIGN=CENTER><FONT SIZE=2 STYLE="font-size: 11pt">{{ forloop.counter }}.</FONT></P>
-		</TD>
-		<TD WIDTH=433 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-			<P CLASS="western" ALIGN=JUSTIFY><FONT SIZE=2 STYLE="font-size: 11pt">{{ ind.desc }}</FONT></P>
-		</TD>
-		<TD WIDTH=165 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-			<P CLASS="western" ALIGN=CENTER><FONT SIZE=2 STYLE="font-size: 11pt">с
-			{{ ind.dateFrom }} по {{ ind.dateTo }}</FONT></P>
-		</TD>
-	</TR>
+        <TR>
+            <TD WIDTH=39 HEIGHT=16 VALIGN=TOP
+                STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <P CLASS="western" ALIGN=CENTER><FONT SIZE=2 STYLE="font-size: 11pt">{{ forloop.counter }}.</FONT></P>
+            </TD>
+            <TD WIDTH=433
+                STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <P CLASS="western" ALIGN=JUSTIFY><FONT SIZE=2 STYLE="font-size: 11pt">{{ ind.desc }}</FONT></P>
+            </TD>
+            <TD WIDTH=165
+                STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <P CLASS="western" ALIGN=CENTER><FONT SIZE=2 STYLE="font-size: 11pt">с
+                    {{ ind.dateFrom }} по {{ ind.dateTo }}</FONT></P>
+            </TD>
+        </TR>
     {% endfor %}
 </TABLE>
 <P CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0in"><BR>
 </P>
 <P CLASS="western" STYLE="margin-right: -0.1in; margin-bottom: 0in; line-height: 0.17in">
-Руководитель практики  от Университета
-          {{ practice.teacher }}</P>
-<P CLASS="western" STYLE="margin-left: -0.39in; margin-right: -0.1in; text-indent: 0.39in; margin-bottom: 0in; line-height: 0.17in">
-                   <FONT SIZE=2 STYLE="font-size: 9pt"><I>(должность,
-ученое звание)
-                                                   (ФИО)</I></FONT></P>
+    Руководитель практики от Университета
+    {{ practice.teacher }}</P>
+<P CLASS="western"
+   STYLE="margin-left: -0.39in; margin-right: -0.1in; text-indent: 0.39in; margin-bottom: 0in; line-height: 0.17in">
+    <FONT SIZE=2 STYLE="font-size: 9pt"><I>(должность,
+        ученое звание)
+        (ФИО)</I></FONT></P>
 <P CLASS="western" ALIGN=JUSTIFY STYLE="text-indent: 0.49in; margin-bottom: 0in">
-<BR>
+    <BR>
 </P>
 <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0in"><B>Согласовано:</B></P>
 <P CLASS="western" ALIGN=JUSTIFY STYLE="text-indent: -0.39in; margin-bottom: 0in">
-<BR>
+    <BR>
 </P>
 <P CLASS="western" STYLE="margin-right: -0.1in; margin-bottom: 0in; line-height: 0.17in">
-Руководитель практики
+    Руководитель практики
 </P>
 <P CLASS="western" STYLE="margin-right: -0.1in; margin-bottom: 0in; line-height: 0.17in">
-от профильной организации
-     {{ practice.chief }}</P>
+    от профильной организации
+    {{ practice.chief }}</P>
 <P CLASS="western" STYLE="margin-right: -0.1in; margin-bottom: 0in; line-height: 0.17in">
-                  <FONT SIZE=2 STYLE="font-size: 9pt"><I>(должность)
+    <FONT SIZE=2 STYLE="font-size: 9pt"><I>(должность)
 
 
         (ФИО)</I></FONT></P>
 <P CLASS="western" STYLE="margin-right: -0.1in; margin-bottom: 0in; line-height: 0.17in">
-<BR>
+    <BR>
 </P>
 <P CLASS="western" STYLE="margin-right: -0.1in; margin-bottom: 0in; line-height: 0.17in">
-<BR>
+    <BR>
 </P>
 <P CLASS="western" STYLE="margin-right: -0.1in; margin-bottom: 0in; line-height: 0.17in">
-Ознакомлен
-     ______________    <U>{{ student.name }}</U></P>
+    Ознакомлен
+    ______________ <U>{{ student.name }}</U></P>
 <P CLASS="western" STYLE="margin-right: -0.1in; margin-bottom: 0in; line-height: 0.17in">
 
-                                                      <FONT SIZE=2 STYLE="font-size: 9pt"><I>(ФИО
-обучающегося)</I></FONT></P>
-{% endblock %}
+    <FONT SIZE=2 STYLE="font-size: 9pt"><I>(ФИО
+        обучающегося)</I></FONT></P>
+</body>
+</html>
