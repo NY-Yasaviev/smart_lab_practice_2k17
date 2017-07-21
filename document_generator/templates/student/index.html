@@ -20,12 +20,13 @@
                                 </tr>
                                 {% for practice in practices %}
                                     <tr>
-                                        <td class="col-xs-4"><a href="/practice_{{ practice.id }}/">{{ practice.name }}</a></td>
+                                        <td class="col-xs-4"><a
+                                                href="/practice_{{ practice.id }}/">{{ practice.name }}</a></td>
                                         <td class="col-xs-4"><a class="deacthref"> {{ practice.date_from }}</a></td>
                                         <td class="col-xs-4"><a class="deacthref">{{ practice.date_to }}</a></td>
                                     </tr>
-                                    </table>
                                 {% endfor %}
+                            </table>
                         </div>
                     </div>
                 </div>

@@ -1,47 +1,75 @@
-{% extends 'main.html' %}
-{% block body %}
-    <P ALIGN=CENTER STYLE="margin-bottom: 0in"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>МИНИСТЕРСТВО
-        ОБРАЗОВАНИЯ И НАУКИ</FONT></FONT></P>
-    <P ALIGN=CENTER STYLE="margin-bottom: 0in"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>РОССИЙСКОЙ
-        ФЕДЕРАЦИИ</FONT></FONT></P>
-    <P ALIGN=CENTER STYLE="margin-bottom: 0in"><BR>
-    </P>
-    <P ALIGN=CENTER STYLE="margin-bottom: 0in"><A NAME="_GoBack"></A><FONT FACE="Times New Roman, serif"><FONT SIZE=4>ФЕДЕРАЛЬНОЕ
-        ГОСУДАРСТВЕННОЕ АВТОНОМНОЕ ОБРАЗОВАТЕЛЬНОЕ
-        УЧРЕЖДЕНИЕ</FONT></FONT></P>
-    <P ALIGN=CENTER STYLE="margin-bottom: 0in"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>ВЫСШЕГО
-        ОБРАЗОВАНИЯ</FONT></FONT></P>
-    <P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>«КАЗАНСКИЙ
-        (ПРИВОЛЖСКИЙ) ФЕДЕРАЛЬНЫЙ УНИВЕРСИТЕТ»</FONT></FONT></P>
-    <P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><BR><BR>
-    </P>
-    <P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><BR><BR>
-    </P>
-    <P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>Высшая
-        школа информационных технологий и
-        информационных систем</FONT></FONT></P>
-    <P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><BR><BR>
-    </P>
-    <P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><FONT FACE="Times New Roman, serif"><FONT SIZE=3><B>ОТЧЕТ
-        О ПРОХОЖДЕНИИ {{ type }} ПРАКТИКИ
-        В КОМПАНИИ</B></FONT></FONT></P>
-    <P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>{{ practice.company }}</FONT></FONT><FONT
-            FACE="Times New Roman, serif"></FONT></P>
-    <P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>Студент
-        группы {{ student.group }}_________{{ student.name }}</FONT></FONT></P>
-    <P ALIGN=CENTER STYLE="margin-bottom: 0.14in">
-        <FONT FACE="Times New Roman, serif"><FONT SIZE=2>подпись
-            (Ф.И.О.)</FONT></FONT></P>
-    <P STYLE="margin-bottom: 0.14in"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>Руководитель
-        практики от ИТИС:</FONT></FONT><SPAN ALIGN=CENTER STYLE="margin-bottom: 0.14in; margin-left: 30px;"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>{{ practice.teacher }}</FONT></FONT>
-    </SPAN></P>
-    <P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><FONT FACE="Times New Roman, serif">(должность,
-        звание, Ф.И.О.)</FONT></P>
-    <P STYLE="margin-bottom: 0.14in"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>Руководитель
-        практики от предприятия:</FONT></FONT><SPAN ALIGN=CENTER STYLE="margin-bottom: 0.14in; margin-left: 30px;"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>{{ practice.chief }}</FONT></FONT>
-    </SPAN></P>
-    <P STYLE="margin-bottom: 0.14in; text-align: center;"><FONT FACE="Times New Roman, serif"><FONT SIZE=4> </FONT></FONT><FONT
-            FACE="Times New Roman, serif">(должность,
-        звание, Ф.И.О.)</FONT></P>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Титульный лист отчета</title>
+    <style>
+        table {
+            width: 100%;
+        }
 
-{% endblock %}
+        td {
+            width: 50%;
+            vertical-align: top;
+        }
+
+        p {
+            margin-top: 0;
+        }
+
+        body {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+<P ALIGN=CENTER STYLE="margin-bottom: 0in"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>МИНИСТЕРСТВО
+    ОБРАЗОВАНИЯ И НАУКИ</FONT></FONT></P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0in"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>РОССИЙСКОЙ
+    ФЕДЕРАЦИИ</FONT></FONT></P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0in"><BR>
+</P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0in"><A NAME="_GoBack"></A><FONT FACE="Times New Roman, serif"><FONT SIZE=4>ФЕДЕРАЛЬНОЕ
+    ГОСУДАРСТВЕННОЕ АВТОНОМНОЕ ОБРАЗОВАТЕЛЬНОЕ
+    УЧРЕЖДЕНИЕ</FONT></FONT></P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0in"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>ВЫСШЕГО
+    ОБРАЗОВАНИЯ</FONT></FONT></P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>«КАЗАНСКИЙ
+    (ПРИВОЛЖСКИЙ) ФЕДЕРАЛЬНЫЙ УНИВЕРСИТЕТ»</FONT></FONT></P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><BR><BR>
+</P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><BR><BR>
+</P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>Высшая
+    школа информационных технологий и
+    информационных систем</FONT></FONT></P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><BR><BR>
+</P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><FONT FACE="Times New Roman, serif"><FONT SIZE=3><B>ОТЧЕТ
+    О ПРОХОЖДЕНИИ {{ type }} ПРАКТИКИ
+    В КОМПАНИИ</B></FONT></FONT></P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><FONT FACE="Times New Roman, serif"><FONT
+        SIZE=4>{{ practice.company }}</FONT></FONT><FONT
+        FACE="Times New Roman, serif"></FONT></P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>Студент
+    группы {{ student.group }}_________{{ student.name }}</FONT></FONT></P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0.14in">
+    <FONT FACE="Times New Roman, serif"><FONT SIZE=2>подпись
+        (Ф.И.О.)</FONT></FONT></P>
+<P STYLE="margin-bottom: 0.14in"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>Руководитель
+    практики от ИТИС:</FONT></FONT><SPAN ALIGN=CENTER STYLE="margin-bottom: 0.14in; margin-left: 30px;"><FONT
+        FACE="Times New Roman, serif"><FONT SIZE=4>{{ practice.teacher }}</FONT></FONT>
+    </SPAN></P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><FONT FACE="Times New Roman, serif">(должность,
+    звание, Ф.И.О.)</FONT></P>
+<P STYLE="margin-bottom: 0.14in"><FONT FACE="Times New Roman, serif"><FONT SIZE=4>Руководитель
+    практики от предприятия:</FONT></FONT><SPAN ALIGN=CENTER STYLE="margin-bottom: 0.14in; margin-left: 30px;"><FONT
+        FACE="Times New Roman, serif"><FONT SIZE=4>{{ practice.chief }}</FONT></FONT>
+    </SPAN></P>
+<P STYLE="margin-bottom: 0.14in; text-align: center;"><FONT FACE="Times New Roman, serif"><FONT
+        SIZE=4> </FONT></FONT><FONT
+        FACE="Times New Roman, serif">(должность,
+    звание, Ф.И.О.)</FONT></P>
+
+</body>
+</html>

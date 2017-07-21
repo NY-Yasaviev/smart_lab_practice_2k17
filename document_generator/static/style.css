@@ -100,3 +100,7 @@ body{
 .deanery-main .panel .panel-body .col-xs-4{
     padding: 0;
 }
+.deanery-main .panel .panel-body .col-xs-8, .deanery-main .panel .panel-body .col-xs-2 {
+    padding: 0;
+}
+.deanery-main .panel .panel-body .col-xs-8, .deanery-main .panel .panel-body .col-xs-2
